@@ -1,0 +1,3 @@
+﻿shp2pgsql -I -s 4326 /home/martinlindner/Data/Postgres/Geodata/OSM/berlin.osm-point.shp berlin.osm_poi > import_osm.sql
+
+shp2pgsql -I -S -s 25833 /home/martinlindner/Data/Postgres/Geodata/Berlin/Hexagon/Hexagon_25833_Empty1.shp berlin.hexagon_1km > /home/martinlindner/Postgres/Querys/carsharing/Import_Hexagon.sql

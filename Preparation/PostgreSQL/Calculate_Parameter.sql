@@ -1,22 +1,18 @@
--- wichtige Parameter berechnen
+-- Calculate important parameters:
 
 
---Nutzungsdauer als Interval berechnen
-ALTER TABLE berlin.routes ADD COLUMN Nutzungsdauer interval;
-UPDATE berlin.routes
-    SET Nutzungsdauer =  TIMESTAMPEND - TIMESTAMPSTART ;
+--Duration of booking (as interval):
+ALTER TABLE berlin.routes ADD COLUMN duration interval;
+UPDATE berlin.routes SET duration =  TIMESTAMPEND - TIMESTAMPSTART ;
     
---Nutzungsdauer in Stunden berechnen
-ALTER TABLE berlin.routes ADD COLUMN Nutzungsdauer_h double precision;
-UPDATE berlin.routes
-    SET Nutzungsdauer_h = EXTRACT(epoch FROM Nutzungsdauer)/3600 ;
+--Duration in hours:
+ALTER TABLE berlin.routes ADD COLUMN duration_h double precision;
+UPDATE berlin.routes SET duration_h = EXTRACT(epoch FROM duration)/3600 ;
 
---Distanz in Metern berechnen
+--Distance in meters (rounded to two decimal places, column 'geom' have to be LINESTRING
 ALTER TABLE berlin.routes ADD COLUMN distance double precision;
-UPDATE berlin.routes
-    SET distance = ROUND(ST_Length(geom)::numeric,2) ;
+UPDATE berlin.routes SET distance = ROUND(ST_Length(geom)::numeric,2) ;
 
---Durchschnittsgeschwindigkeit berechnen
+--Mean speed in km/h
 ALTER TABLE berlin.routes ADD COLUMN mean_speed double precision;
-UPDATE berlin.routes
-    SET mean_speed = (distance/1000)/(EXTRACT(epoch FROM Nutzungsdauer)/3600) ; 
+UPDATE berlin.routes SET mean_speed = (distance/1000)/duration_h ; 

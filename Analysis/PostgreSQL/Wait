@@ -1,0 +1,5 @@
+--Fensterfunktionen führen Berechnungen gruppenweise durch. Näheres unter: http://fabrizioregini.info/blog/2015/04/26/postgres-essentials-window-functions/
+
+SELECT id, vehicleid, lead(timestampstart) OVER (partition by vehicleid ORDER BY vehicleid, timestampstart) -
+           timestampend AS timetonext INTO berlin.standzeit
+		   FROM berlin.routes;

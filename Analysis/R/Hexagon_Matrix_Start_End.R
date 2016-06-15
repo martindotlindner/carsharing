@@ -15,3 +15,8 @@ hex_matrix <- na.omit(hex_matrix)
 #Create matrix from data frame
 hex_matrix_total <- acast(hex_matrix, start_hex~end_hex, value.var = "count")
 hex_matrix_anteil <- acast(hex_matrix, start_hex~end_hex, value.var = "Anteil")
+
+setwd("C:/Users/Martin/Documents/Workaholic/TUD_Verkehr/GIT/martindotlindner/carsharing/Data/")
+write.csv(hex_matrix_total, file = "hex_matrix_total.csv")
+write.csv(hex_matrix_anteil, file = "hex_matrix_anteil.csv")
+

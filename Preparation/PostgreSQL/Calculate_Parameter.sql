@@ -9,6 +9,10 @@ UPDATE berlin.routes SET duration =  TIMESTAMPEND - TIMESTAMPSTART ;
 ALTER TABLE berlin.routes ADD COLUMN duration_h double precision;
 UPDATE berlin.routes SET duration_h = EXTRACT(epoch FROM duration)/3600 ;
 
+--Duration in min:
+ALTER TABLE berlin.routes ADD COLUMN duration_min double precision;
+UPDATE berlin.routes SET duration_min = EXTRACT(epoch FROM duration)/60 ;
+
 --Distance in meters (rounded to two decimal places, column 'geom' have to be LINESTRING
 ALTER TABLE berlin.routes ADD COLUMN distance double precision;
 UPDATE berlin.routes SET distance = ROUND(ST_Length(geom)::numeric,2) ;

@@ -1,4 +1,7 @@
 ﻿-- addional airport fees are not considered yet!
+-- Tegel: ST_GeomFromText('POINT(13.287711 52.559686)', 4326) 
+-- Schönefeld: ST_GeomFromText('POINT(13.52 52.388333)', 4326) 
+
 ALTER TABLE berlin.routes ADD COLUMN sales double precision;
 --calculate costs for Car2Go
 UPDATE berlin.routes SET sales = CASE

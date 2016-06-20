@@ -1,19 +1,12 @@
+This repository is devided into three parts/directories: **preparation** of the raw data, **analysis** of the databases and **presentation** of the results. Primarily, open-source software R, PostgreSQL with PostGIS-plugin and QGIS are used. Every directory contains a separate readme.md with a documentation. General topics are handled in the wiki.
 
 # Table of Contents
-* [First Steps with PostgreSQL](#First_Steps)
-* [Preparation of FFCS-Data](#Preparation)
-* [Analysis of FFCS-Data](#Analysis)
-* [Presentation](#Presentation)
+
+* [Preparation](Preparation/Readme.md)
+* [Analysis](Analysis/Readme.md)
+* [Presentation](Presentation/Readme.md)
 
 
 
 
-
-# First Steps with PostgreSQL <a id="First_Steps"></a>
-
-# Preparation of FFCS-Data <a id="Preparation"></a>
-
-# Analysis of FFCS-Data <a id="Analysis"></a>
-
-# Presentation <a id="Presentation"></a>
 

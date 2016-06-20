@@ -1,0 +1,9 @@
+﻿ogr2ogr -f "PostgreSQL" -a_srs "EPSG:4326" PG:"host=localhost port=5433 user=postgres dbname= password=" berlin.kml -nln germany.berlin_oa
+ogr2ogr -f "PostgreSQL" -a_srs "EPSG:4326" PG:"host=localhost port=5433 user=postgres dbname= password=" frankfurt.kml -nln germany.frankfurt_oa
+ogr2ogr -f "PostgreSQL" -a_srs "EPSG:4326" PG:"host=localhost port=5433 user=postgres dbname= password=" hamburg.kml -nln germany.hamburg_oa
+ogr2ogr -f "PostgreSQL" -a_srs "EPSG:4326" PG:"host=localhost port=5433 user=postgres dbname= password=" muenchen.kml -nln germany.muenche_oa
+ogr2ogr -f "PostgreSQL" -a_srs "EPSG:4326" PG:"host=localhost port=5433 user=postgres dbname= password=" rheinland.kml -nln germany.rheinland_oa
+ogr2ogr -f "PostgreSQL" -a_srs "EPSG:4326" PG:"host=localhost port=5433 user=postgres dbname= password=" stuttgart.kml -nln germany.stuttgart_oa
+
+
+

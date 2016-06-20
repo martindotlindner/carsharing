@@ -1,23 +1,13 @@
-require(stringi)
-setwd("C:/Users/Martin/Documents/Workaholic/TUD_Verkehr/Geodaten/Geschaeftsgebiete/Drivenow/")
-location <- read.table("Location_Drivenow.txt", sep = "," ,header = FALSE)
-location <- data.frame(t(location))
+# Replacement of umlauts and spaces have to be added (Failure of downloading e.g. 'München" or 'New York City'
+library(curl,RCurl,httr,jsonlite)
+library(jsonlite)
 
-businessAreaUrl <- location[grep("businessAreaUrl", location$t.location.), ]
-businessAreaUrl <- as.data.frame(as.character(businessAreaUrl))
-colnames(businessAreaUrl) <- "url"
+cities <- fromJSON("https://www.car2go.com/api/v2.1/locations?oauth_consumer_key=consumer_key&format=json")
+citynames <- tolower(cities$location$locationName)
 
-businessAreaUrl$url <- stri_unescape_unicode(businessAreaUrl$url)
-
-businessAreaUrl$url <- as.data.frame(sapply(businessAreaUrl$url,gsub,pattern="businessAreaUrl:",replacement=""))
-businessAreaUrl$url <- as.data.frame(sapply(businessAreaUrl$url,gsub,pattern="items:",replacement=""))
-businessAreaUrl$url <- as.data.frame(sapply(businessAreaUrl$url,gsub,pattern="\\{|\\[",replacement=""))
-colnames(businessAreaUrl) <- "url"
-
-destfilenames <- stri_sub(URL,-8,-1) 
-for (i in 1:length(businessAreaUrl$url[,1])){
-  URL <- as.vector(as.character(businessAreaUrl$url[i,1]))
-  download.file(URL, destfile=stri_sub(URL,-8,-1))
+city = c("stuttgart","berlin","hamburg","frankfurt","rheinland","muenchen")
+for (i in 1:length(citynames)){
+url <- paste0("http://www.car2go.com/api/v2.1/operationareas?loc=",citynames[i],"&oauth_consumer_key=car2gowebsite")
+filename <- paste0(citynames[i],".kml")
+download.file(url, destfile = filename, method="libcurl")
 }
-
-

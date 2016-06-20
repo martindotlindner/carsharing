@@ -32,7 +32,7 @@ Only necessary for converted csv-files Server:  Preprocessing of raw csv-files i
 
 ## Import Operating Areas
 1. Download operating areas as kml-files from Car2Go: [operatingarea_car2go.R](Data/R/operatingarea_car2go.R) You need a API-KEY for this (see https://github.com/car2go/openAPI)
-2. Import kml-files to PostgreSQL-Database with ogr2ogr: [Add_Operating_Area_kml_with_ogr2ogr.txt](Preparation/PostgreSQL/Add_Operating_Area_kml_with_ogr2ogr.txt) Change your settings! (EPSG-Code, port, dbname, password and filenames)
+2. Import kml-files to PostgreSQL-Database with ogr2ogr: [Add_Operating_Area_kml_with_ogr2ogr.txt](Preparation/PostgreSQL/Add_Operating_Area_kml_with_ogr2ogr.txt), Change your settings (EPSG-Code, port, dbname, password and filenames)!
 3. Change geometry from lines to polygons [OperatingArea_Line_to_Polygon.sql](Preparation/PostgreSQL/OperatingArea_Line_to_Polygon.sql)
 
  

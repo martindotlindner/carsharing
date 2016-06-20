@@ -19,10 +19,14 @@ Only necessary for converted csv-files Server:  Preprocessing of raw csv-files i
 
 
 ## Import Data <a id="Import_Data"></a>
+### FFCS-Data
 1. Create table in PostgreSQL: [Import_Routes_World.sql](Preparation/PostgreSQL/Import_Routes_World.sql) 
 2. Import all csv-files (if there are multiple files within one directory you can use [Import_CSV_SQL_Query.R](Preparation/R/Import_CSV_SQL_Query.R.R)
 
-
+### Operating Areas
+1. Download operating areas as kml-files from Car2Go: [operatingarea_car2go.R](Data/R/operatingarea_car2go.R) You need a API-KEY for this (see https://github.com/car2go/openAPI)
+2. Import kml-files to PostgreSQL-Database with ogr2ogr: 
+3. Change geometry from lines to polygons
 
 
 

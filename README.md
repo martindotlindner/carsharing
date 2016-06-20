@@ -28,14 +28,25 @@ Only necessary for converted csv-files Server:  Preprocessing of raw csv-files i
 2. Import kml-files to PostgreSQL-Database with ogr2ogr: 
 3. Change geometry from lines to polygons
 
+ 
+## Reduce area of interest
+### Choice 1 - Germany
+1. Import shapefile with boundary of Germany
 
+ ```
+ cd /usr/bin/
+ shp2pgsql -s 4326 DEU_adm0.shp germany.border | psql -h localhost -p 5432 -U postgres -d carsharing
+ ```
+2. Select Routes within Germany [Select_Into_Germany_Routes.sql](Preparation/PostgreSQL/Select_Into_Germany_Routes.sql)
+
+### Choice 2 - Berlin
+1. Select Routes within Berlin [Select_Into_Berlin_Routes.sql](Preparation/PostgreSQL/Select_Into_Berlin_Routes.sql)
 
 ## Create Parameter <a id="Calc_Parameters"></a>
 1. Add and calculate geometry column for all data: [Add_Geometry_World_Routes.sql](Preparation/PostgreSQL/Add_Geometry_World_Routes.sql)
-2. Select Routes within Berlin [Select_Into_Berlin_Routes.sql](Preparation/PostgreSQL/Select_Into_Berlin_Routes.sql)
-3. Add and calculate geometry columns for trips within Berlin with SRID 25833 [Add_Geometry_Berlin_Routes.sql](Preparation/PostgreSQL/Add_Geometry_Berlin_Routes.sql)
-4. Calculate basic parameters like duration of trip, distance, mean speed, e.g. [Calculate_Parameter.sql](Preparation/PostgreSQL/Calculate_Parameter.sql)
-5. Calculate sales based on the pricing of the providers: [Calculate_Sales.sql](Preparation/PostgreSQL/Calculate_Sales.sql)
+2. Add and calculate geometry columns for trips within Berlin with SRID 25833 [Add_Geometry_Berlin_Routes.sql](Preparation/PostgreSQL/Add_Geometry_Berlin_Routes.sql)
+3. Calculate basic parameters like duration of trip, distance, mean speed, e.g. [Calculate_Parameter.sql](Preparation/PostgreSQL/Calculate_Parameter.sql)
+4. Calculate sales based on the pricing of the providers: [Calculate_Sales.sql](Preparation/PostgreSQL/Calculate_Sales.sql)
 
 
 ## Remove Errors <a id="Remove_Errors"></a>

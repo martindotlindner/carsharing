@@ -1,23 +1,25 @@
 library(ggplot2)
 library(plyr)
+library(zoo)
 #setwd("C:/Program Files/PostgreSQL/9.5/data/")
 setwd("C:/Users/Martin/Documents/Workaholic/TUD_Verkehr/R/Data/")
 
 
-sales_vehicle <- read.table("Sales_after.csv",sep = ";",header = TRUE)
+sales_vehicle <- read.table("Sales_Vehicles.csv",sep = ";",header = TRUE)
 sales_vehicle$salespervehicle <- sales_vehicle$sum/sales_vehicle$vehicles
-sales_vehicle$date <- strptime(sales_vehicle$date, format = "%Y-%m-%d %H:%M:%S")
+sales_vehicle$date <- as.POSIXct(strptime(sales_vehicle$date, format = "%Y-%m-%d %H:%M:%S"))
+
 sales_vehicle$day <- weekdays(as.Date(sales_vehicle$date))
+sales_vehicle$shortdate <- strftime(sales_vehicle$date, format="%Y-%m")
 
 ggplot(sales_vehicle,aes(date,salespervehicle, colour = provider)) +
   geom_line()
 
-after <- ddply(sales_vehicle, .(date,provider), summarize, SalesperVehicleperDay = mean(salespervehicle,na.rm = TRUE))
-tapply(sales_vehicle$salespervehicle, month(mdy_hms(sales_vehicle$date)), mean)
+sales_sum <- ddply(sales_vehicle, .(shortdate,provider), summarize, SalesperDay = mean(salespervehicle,na.rm = TRUE))
 
-date <- seq(from = as.Date("2010/5/30"), by="week", length=10) ## Example data
 
-cuts <- seq(from = as.Date("2000/7/1"), by="year", length=13) 
-labs <- paste0("FY", 1:12)
+sales_sum$shortdate <- as.yearmon(sales_sum$shortdate)
+sales_sum$shortdate <- as.POSIXct(sales_sum$shortdate)
+ggplot(sales_sum, aes(shortdate,SalesperDay,colour = provider)) +
+  geom_line()
 
-cut_data <- cut(date, breaks = cuts, labels = labs)

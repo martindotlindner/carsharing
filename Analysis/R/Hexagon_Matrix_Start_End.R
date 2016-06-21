@@ -16,7 +16,8 @@ hex_matrix <- na.omit(hex_matrix)
 hex_matrix_total <- acast(hex_matrix, start_hex~end_hex, value.var = "count")
 hex_matrix_anteil <- acast(hex_matrix, start_hex~end_hex, value.var = "Anteil")
 
-setwd("C:/Users/Martin/Documents/Workaholic/TUD_Verkehr/GIT/martindotlindner/carsharing/Data/")
+## Set directory before writing csv
+#setwd("")
 write.csv(hex_matrix_total, file = "hex_matrix_total.csv")
 write.csv(hex_matrix_anteil, file = "hex_matrix_anteil.csv")
 

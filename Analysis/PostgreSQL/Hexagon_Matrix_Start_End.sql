@@ -1,4 +1,5 @@
-﻿ALTER TABLE berlin.routes ADD COLUMN start_hex integer;
+--Modify table names and schemas if necessary!
+ALTER TABLE berlin.routes ADD COLUMN start_hex integer;
 ALTER TABLE berlin.routes ADD COLUMN end_hex integer;
 
 
@@ -8,4 +9,7 @@ UPDATE berlin.routes SET end_hex = gid FROM berlin.hexagon_empty WHERE ST_Within
 
 COPY(
 SELECT start_hex,end_hex, count(*) FROM berlin.routes GROUP BY start_hex, end_hex ORDER BY start_hex, end_hex)
-TO 'C:/Program Files/PostgreSQL/9.5/data/Hexagon_Matrix.csv' (format csv);
+--Windows
+--TO 'C:/Program Files/PostgreSQL/9.5/data/Hexagon_Matrix.csv' DELIMITER ';' CSV HEADER;
+--Linux
+TO '/tmp/Hexagon_Matrix.csv' DELIMITER ';' CSV HEADER;

@@ -17,6 +17,8 @@ Only necessary for converted csv-files Server:  Preprocessing of raw csv-files i
 2. Import all csv-files (if there are multiple files within one directory you can use [Import_CSV_SQL_Query.R](Preparation/R/Import_CSV_SQL_Query.R.R)
 
 ### Reduce area of interest
+To reduce computing time, a reduction of your data is recommended. Furthermore, you can use a local spatial reference system, which is suitable for multiple PostGIS-queries.
+
 #### Choice 1 - Germany
 1. Import shapefile with boundary of Germany
 
@@ -30,12 +32,11 @@ Only necessary for converted csv-files Server:  Preprocessing of raw csv-files i
 1. Select Routes within Berlin [Select_Into_Berlin_Routes.sql](Preparation/PostgreSQL/Select_Into_Berlin_Routes.sql)
 
 
-## Import Operating Areas
+## Import Operating Areas <a id="Operating_Areas"></a>
 1. Download operating areas as kml-files from Car2Go: [operatingarea_car2go.R](Data/R/operatingarea_car2go.R) You need a API-KEY for this (see https://github.com/car2go/openAPI)
 2. Import kml-files to PostgreSQL-Database with ogr2ogr: [Add_Operating_Area_kml_with_ogr2ogr.txt](Preparation/PostgreSQL/Add_Operating_Area_kml_with_ogr2ogr.txt), Change your settings (EPSG-Code, port, dbname, password and filenames)!
 3. Change geometry from lines to polygons [OperatingArea_Line_to_Polygon.sql](Preparation/PostgreSQL/OperatingArea_Line_to_Polygon.sql)
 
- 
 
 # Create Parameter <a id="Calc_Parameters"></a>
 1. Add and calculate geometry column for all data: [Add_Geometry_World_Routes.sql](Preparation/PostgreSQL/Add_Geometry_World_Routes.sql)
@@ -52,10 +53,40 @@ To execute serval files with psql, you can use this command:
 
 ```sql
 BEGIN;
+\i query1.sql
+\i query2.sql
+COMMIT;
+```
+
+A workflow for preprocessing data for Berlin would be (you have to run [Import_CSV_SQL_Query.R](Preparation/R/Import_CSV_SQL_Query.R.R) first)
+
+```sql
+BEGIN;
 \i Import_Routes_World.sql
 \i sql_import.sql
 \i Add_Geometry_World_Routes.sql
 \i Select_Into_Berlin_Routes.sql
 \i Add_Geometry_Berlin_Routes.sql
+\i Calculate_Parameter.sql
+\i Remove_Errors.sql
+\i Calculate_Sales.sql
 COMMIT;
 ```
+
+A workflow for preprocessing data for Germany would be similar. If you want to add the corresponding city to each trip, you have to [import the operating areas](#Operating_Areas) first.
+
+```sql
+BEGIN;
+\i Import_Routes_World.sql
+\i sql_import.sql
+\i Add_Geometry_World_Routes.sql
+\i Select_Into_Germany_Routes.sql
+\i Add_Geometry_Germany_Routes.sql
+\i Add_City.sql
+\i Calculate_Parameter.sql
+\i Remove_Errors.sql
+\i Calculate_Sales.sql
+COMMIT;
+```
+
+Afterwards, outliers should be removed like [described](#Remove_Errors) above.

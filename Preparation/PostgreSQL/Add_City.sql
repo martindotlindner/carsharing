@@ -1,14 +1,21 @@
 ﻿-- Add column with city based on spatial query with operating area from Drivenow
 -- Import shapefiles with operating area of each city first
 ALTER TABLE germany.routes ADD COLUMN city character varying;
-UPDATE germany.routes SET city = CASE
-   WHEN ST_DWithin(germany.routes.geom::geography, germany.muenchen_oa_poly.wkb_geometry::geography, 10000) THEN 'Muenchen'
-   WHEN ST_DWithin(germany.routes.geom::geography, germany.berlin_oa_poly.wkb_geometry::geography, 5000) THEN 'Berlin'
-   WHEN ST_DWithin(germany.routes.geom::geography, germany.rheinland_oa_poly.wkb_geometry::geography, 10000) THEN 'Rheinland'
-   WHEN ST_DWithin(germany.routes.geom::geography, germany.hamburg_oa_poly.wkb_geometry::geography, 10000) THEN 'Hamburg'
-   WHEN ST_DWithin(germany.routes.geom::geography, germany.frankfurt_oa_poly.wkb_geometry::geography, 10000) THEN 'Frankfurt'
-   WHEN ST_DWithin(germany.routes.geom::geography, germany.stuttgart_oa_poly.wkb_geometry::geography, 10000) THEN 'Stuttgart'
-   ELSE 'unknown'
-END
-FROM germany.muenchen_oa_poly, germany.berlin_oa_poly, germany.rheinland_oa_poly, germany.hamburg_oa_poly, germany.frankfurt_oa_poly, germany.stuttgart_oa_poly;
 
+UPDATE germany.routes SET city = 'Berlin'
+WHERE ST_DWithin(germany.routes.geom::geography, ST_GeomFromText('POINT(13.408333 52.518611)', 4326)::geography, 30000);
+
+UPDATE germany.routes SET city = 'Muenchen'
+WHERE ST_DWithin(germany.routes.geom::geography, ST_GeomFromText('POINT(11.575556 48.137222)', 4326)::geography, 30000);
+
+UPDATE germany.routes SET city = 'Hamburg'
+WHERE ST_DWithin(germany.routes.geom::geography, ST_GeomFromText('POINT(9.993333 53.550556)', 4326)::geography, 30000);
+
+UPDATE germany.routes SET city = 'Frankfurt'
+WHERE ST_DWithin(germany.routes.geom::geography, ST_GeomFromText('POINT(8.682222 50.110556)', 4326)::geography, 30000);
+
+UPDATE germany.routes SET city = 'Koeln'
+WHERE ST_DWithin(germany.routes.geom::geography, ST_GeomFromText('POINT(6.956944 50.938056)', 4326)::geography, 15000);
+
+UPDATE germany.routes SET city = 'Duesseldorf'
+WHERE ST_DWithin(germany.routes.geom::geography, ST_GeomFromText('POINT(6.782778 51.225556)', 4326)::geography, 15000);

@@ -2,8 +2,8 @@
 
 * [Preparation](#Preparation)
 * [Import Data to PostgreSQL](#Import_Data)  
-* [Calculate Parameters](#Calc_Parameters) 
-* [Remove Errors](#Remove_Errors) 
+* [Remove errors and calculate parameters](#Calc_Parameters) 
+* [Summarized workflow](#Workflow)
 
 
 # Preparation of FFCS-Data <a id="Preparation"></a>
@@ -38,17 +38,17 @@ To reduce computing time, a reduction of your data is recommended. Furthermore, 
 3. Change geometry from lines to polygons [OperatingArea_Line_to_Polygon.sql](Preparation/PostgreSQL/OperatingArea_Line_to_Polygon.sql)
 
 
-# Create Parameter <a id="Calc_Parameters"></a>
-1. Add and calculate geometry column for all data: [Add_Geometry_World_Routes.sql](Preparation/PostgreSQL/Add_Geometry_World_Routes.sql)
-2. Add and calculate geometry columns for trips within Berlin with SRID 25833 [Add_Geometry_Berlin_Routes.sql](Preparation/PostgreSQL/Add_Geometry_Berlin_Routes.sql)
-3. Calculate basic parameters like duration of trip, distance, mean speed, e.g. [Calculate_Parameter.sql](Preparation/PostgreSQL/Calculate_Parameter.sql)
-4. Calculate sales based on the pricing of the providers: [Calculate_Sales.sql](Preparation/PostgreSQL/Calculate_Sales.sql)
+# Remove errors and calculate parameters<a id="Calc_Parameters"></a>
+1. Remove errors - PartI: Remove 'Umrüsterfahrten', all trips from 'Multicity' and coordinates < 1 (negative coordinates leads to error when calculation geometry with local coordinate reference system) [Remove_Errors_Step1.sql](Preparation/PostgreSQL/Remove_Errors_Step1.sql)
+2. Add and calculate geometry column for all data: [Add_Geometry_World_Routes.sql](Preparation/PostgreSQL/Add_Geometry_World_Routes.sql)
+3. Add and calculate geometry columns for trips within Berlin with SRID 25833 [Add_Geometry_Berlin_Routes.sql](Preparation/PostgreSQL/Add_Geometry_Berlin_Routes.sql)
+4. Calculate basic parameters like duration of trip, distance, mean speed, e.g. [Calculate_Parameter.sql](Preparation/PostgreSQL/Calculate_Parameter.sql)
+5. Calculate sales based on the pricing of the providers: [Calculate_Sales.sql](Preparation/PostgreSQL/Calculate_Sales.sql)
+6. Remove errors - PartII: Remove trips with unlikly speed or duration [Remove_Errors_Step2.sql](Preparation/PostgreSQL/Remove_Errors_Step2.sql)
+7. Remove errors - PartIII: Create query to remove outliers based on in R [Remove_Outliers.R](Preparation/R/Remove_Outliers.R), run created query afterwards
 
 
-# Remove Errors <a id="Remove_Errors"></a>
-1. Remove errors - PartI: Remove 'Umrüsterfahrten', all trips from 'Multicity', trips with unlikly speed or duration [Remove_Errors.sql](Preparation/PostgreSQL/Remove_Errors.sql)
-2. Remove errors - PartII: Create query to remove outliers based on in R [Remove_Outliers.R](Preparation/R/Remove_Outliers.R), run created query afterwards
-
+# Summarized workflow<a id="Workflow"></a>
 To execute serval files with psql, you can use this command:
 
 ```sql
@@ -66,9 +66,10 @@ BEGIN;
 \i sql_import.sql
 \i Add_Geometry_World_Routes.sql
 \i Select_Into_Berlin_Routes.sql
+\i Remove_Errors_Step1.sql
 \i Add_Geometry_Berlin_Routes.sql
 \i Calculate_Parameter.sql
-\i Remove_Errors.sql
+\i Remove_Errors_Step2.sql
 \i Calculate_Sales.sql
 COMMIT;
 ```
@@ -81,10 +82,11 @@ BEGIN;
 \i sql_import.sql
 \i Add_Geometry_World_Routes.sql
 \i Select_Into_Germany_Routes.sql
+\i Remove_Errors_Step1.sql
 \i Add_Geometry_Germany_Routes.sql
 \i Add_City.sql
 \i Calculate_Parameter.sql
-\i Remove_Errors.sql
+\i Remove_Errors_Step2.sql
 \i Calculate_Sales.sql
 COMMIT;
 ```

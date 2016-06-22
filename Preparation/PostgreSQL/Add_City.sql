@@ -1,5 +1,6 @@
 ﻿-- Add column with city based on spatial query with operating area from Drivenow
 -- Import shapefiles with operating area of each city first
+ALTER TABLE germany.routes DROP COLUMN if exists city;
 ALTER TABLE germany.routes ADD COLUMN city character varying;
 
 UPDATE germany.routes SET city = 'Berlin'
@@ -19,3 +20,5 @@ WHERE ST_DWithin(germany.routes.geom::geography, ST_GeomFromText('POINT(6.956944
 
 UPDATE germany.routes SET city = 'Duesseldorf'
 WHERE ST_DWithin(germany.routes.geom::geography, ST_GeomFromText('POINT(6.782778 51.225556)', 4326)::geography, 15000);
+
+

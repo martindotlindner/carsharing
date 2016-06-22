@@ -22,9 +22,13 @@ UPDATE berlin.routes SET end_hex = gid FROM berlin.hexagon_1km WHERE ST_Within(b
 COPY(
 SELECT start_hex,end_hex, count(*) FROM berlin.routes WHERE TIMESTAMPSTART < '2015-06-01'::timestamp AND TIMESTAMPSTART > '2015-03-01'::timestamp GROUP BY start_hex, end_hex ORDER BY start_hex, end_hex)
 --Windows
-TO 'C:/Program Files/PostgreSQL/9.5/data/Hexagon_Matrix_before.csv' DELIMITER ';' CSV HEADER;
+--TO 'C:/Program Files/PostgreSQL/9.5/data/Hexagon_Matrix_before.csv' DELIMITER ';' CSV HEADER;
+-- Linux
+TO '/tmp/Hexagon_Matrix_before.csv' DELIMITER ';' CSV HEADER;
 
 COPY(
 SELECT start_hex,end_hex, count(*) FROM berlin.routes WHERE TIMESTAMPSTART < '2015-09-01'::timestamp AND TIMESTAMPSTART > '2015-06-01'::timestamp GROUP BY start_hex, end_hex ORDER BY start_hex, end_hex)
 --Windows
-TO 'C:/Program Files/PostgreSQL/9.5/data/Hexagon_Matrix_after.csv' DELIMITER ';' CSV HEADER;
+--TO 'C:/Program Files/PostgreSQL/9.5/data/Hexagon_Matrix_after.csv' DELIMITER ';' CSV HEADER;
+-- Linux
+TO '/tmp/Hexagon_Matrix_after.csv' DELIMITER ';' CSV HEADER;

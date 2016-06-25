@@ -9,7 +9,8 @@ SELECT  AddGeometryColumn(
 
 UPDATE world.routes SET geom = ST_SetSRID(ST_MakeLine(ST_Point(longitudestart, latitudestart), ST_Point(longitudeend, latitudeend)), 4326);
 
-CREATE INDEX idx_world_geom ON world.routes USING gist(geom);
+DROP INDEX if exists idx_world_routes_geom;
+CREATE INDEX idx_world_routes_geom ON world.routes USING gist(geom);
 
 ALTER TABLE world.routes DROP COLUMN if exists geom_start;
 SELECT  AddGeometryColumn(
@@ -22,5 +23,6 @@ SELECT  AddGeometryColumn(
 
 UPDATE ffcs.routes SET geom_start = ST_SetSRID(ST_Point(longitudestart, latitudestart), 4326);
 
-CREATE INDEX idx_world_geom_start ON ffcs.routes USING gist(geom_start);
+DROP INDEX if exists idx_world_routes_geom_start;
+CREATE INDEX idx_world_routes_geom_start ON ffcs.routes USING gist(geom_start);
 

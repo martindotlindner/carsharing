@@ -8,6 +8,8 @@ SELECT  AddGeometryColumn(
 	,2);
 	
 UPDATE germany.routes SET geom = ST_Transform(ST_SetSRID(ST_MakeLine(ST_Point(longitudestart, latitudestart), ST_Point(longitudeend, latitudeend)), 4326), 25832);
+DROP INDEX if exists idx_germany_routes_geom;
+CREATE INDEX idx_germany_routes_geom ON germany.routes USING gist(geom);
 
 ALTER TABLE germany.routes DROP COLUMN if exists geom_start;
 SELECT  AddGeometryColumn(
@@ -19,6 +21,8 @@ SELECT  AddGeometryColumn(
 	,2);
 
 UPDATE germany.routes SET geom_start = ST_Transform(ST_SetSRID(ST_Point(longitudestart, latitudestart), 4326), 25832);
+DROP INDEX if exists idx_germany_routes_geom_start;
+CREATE INDEX idx_germany_routes_geom_start ON germany.routes USING gist(geom_start);
 
 ALTER TABLE germany.routes DROP COLUMN if exists geom_end;
 SELECT  AddGeometryColumn(
@@ -30,6 +34,5 @@ SELECT  AddGeometryColumn(
 	,2);
 
 UPDATE germany.routes SET geom_end = ST_Transform(ST_SetSRID(ST_Point(longitudeend, latitudeend), 4326), 25832);
-
-DROP INDEX if exists idx_cs_germany_geom;
-CREATE INDEX idx_cs_germany_geom ON germany.routes USING gist(geom);
+DROP INDEX if exists idx_germany_routes_geom_end;
+CREATE INDEX idx_germany_routes_geom_end ON germany.routes USING gist(geom_end);

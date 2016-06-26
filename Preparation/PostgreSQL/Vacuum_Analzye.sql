@@ -1,0 +1,1 @@
+﻿VACUUM ANALYZE world.routes;

@@ -26,4 +26,5 @@ DELETE FROM germany.routes
 WHERE streetstart = 'Umrüster DE' OR streetend = 'Umrüster DE' ;
 
 DELETE FROM germany.routes
-WHERE latitudestart < 1 OR longitudestart < 1 OR latitudeend < 1 OR latitudeend < 1;
+WHERE latitudestart < 1 OR longitudestart < 1 OR latitudeend < 1 OR latitudeend < 1 OR
+latitudestart > 90 OR longitudestart > 90 OR latitudeend > 90 OR latitudeend > 90;

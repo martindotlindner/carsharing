@@ -20,6 +20,6 @@
 
 * a useful link to understand the query: https://blog.cartodb.com/lateral-joins/
 * a similiar problem in stackoverflow: http://stackoverflow.com/questions/34517386/unique-assignment-of-closest-points-between-two-tables
-* the query: [Nearest_Neighbour.sql](Analysis/PostgreSQL/Nearest_Neighbour.sql)
+* the query: [Nearest_Neighbour.sql](PostgreSQL/Nearest_Neighbour.sql)
 
  

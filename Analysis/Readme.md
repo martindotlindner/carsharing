@@ -10,8 +10,8 @@
 ## Create matrix with start-end-relationship
 
 1. Create hexagon shapefile in QGIS (see wiki article *Create Hexagons with QGIS*) with required size and import it into PostgreSQL database
-2. Set hexagon ID for start and end for each trip and export the result grouped by hexagon id´s as csv with [Hexagon_Matrix_Start_End.sql](carsharing/Analysis/PostgreSQL/Nearest_Neighbour.sql). Modify table name of hexagons and schema if necessary!
-3. Import csv to R and create matrix with [Hexagon_Matrix_Start_End.R](Analysis/R/Hexagon_Matrix_Start_End.R)
+2. Set hexagon ID for start and end for each trip and export the result grouped by hexagon id´s as csv with [Hexagon_Matrix_Start_End.sql](PostgreSQL/Nearest_Neighbour.sql). Modify table name of hexagons and schema if necessary!
+3. Import csv to R and create matrix with [Hexagon_Matrix_Start_End.R](R/Hexagon_Matrix_Start_End.R)
 4. 
 
 ## Calculate shortest distance between grid points and vehicles

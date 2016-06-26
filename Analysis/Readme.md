@@ -16,7 +16,11 @@
 
 ## Calculate shortest distance between grid points and vehicles
 1. Create grid points in QGIS
-2. Calculate shortest distance for all grid points to start positions of vehicles is a classical nearest neighbour problem, but running it as bulk on a whole table is a bit tricky and furthermore timeconsuming (adjust config settings, see [Wiki] (https://github.com/martindotlindner/carsharing/wiki/Performance-Optimization-of-PostgreSQL)
+2. Select nearest neighbour for each grid point and calculate distance: [Nearest_Neighbour.sql](PostgreSQL/Nearest_Neighbour.sql)
+
+Hint: is a classical nearest neighbour problem, but running it as bulk on a whole table is a bit tricky and furthermore timeconsuming (adjust config settings, see [Wiki] (https://github.com/martindotlindner/carsharing/wiki/Performance-Optimization-of-PostgreSQL)!)
+
+Further details:
 
 * a useful link to understand the query: https://blog.cartodb.com/lateral-joins/
 * a similiar problem in stackoverflow: http://stackoverflow.com/questions/34517386/unique-assignment-of-closest-points-between-two-tables

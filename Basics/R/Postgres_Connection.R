@@ -4,7 +4,7 @@ library(RPostgreSQL)
 drv <- dbDriver("PostgreSQL")
 
 # Connection settings
-con <- dbConnect(drv, dbname="Carsharing",host="localhost",port=5432,user="postgres",password="MuC4ever!" )
+con <- dbConnect(drv, dbname="Carsharing",host="localhost",port=5432,user="postgres",password="xxx!" )
 
 dbExistsTable(con, c("germany", "routes"))
 starts <- dbReadTable(con, c("germany", "routes"))

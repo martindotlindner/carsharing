@@ -13,6 +13,4 @@ ALTER TABLE berlin.routes ADD COLUMN wait interval;
 UPDATE berlin.routes
 SET    wait = berlin.standzeit.timetonext
 FROM   berlin.standzeit
-WHERE  berlin.routes.id = berlin.standzeit.id
-AND    berlin.routes.vehicleid = berlin.standzeit.vehicleid
-AND    berlin.routes.timestampstart = berlin.standzeit.timestampstart
+WHERE  berlin.routes.id = berlin.standzeit.id;

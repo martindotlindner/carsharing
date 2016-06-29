@@ -1,4 +1,5 @@
-﻿SET datestyle TO German;
+﻿CREATE SCHEMA IF NOT EXISTS world;
+SET datestyle TO German;
 DROP TABLE if exists world.routes;
 CREATE TABLE world.routes(
 	ID serial PRIMARY KEY,

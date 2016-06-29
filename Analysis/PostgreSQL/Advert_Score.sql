@@ -1,20 +1,19 @@
-﻿-- Create table with daytime depending score of carsharing users as proxy for number of people, how are mobile and see advert
-DROP TABLE if exists berlin.advert_value ;
-SELECT COUNT(*) AS daytime_score, EXTRACT (hour from timestampstart) as hour INTO berlin.advert_value
-FROM berlin.routes
-GROUP BY  hour
-ORDER BY hour;
+﻿SELECT * FROM berlin.routes LIMIT 100;
 
+-- Add column with GTKC-value
+ALTER TABLE berlin.routes DROP COLUMN if exists gtkc;
+ALTER TABLE berlin.routes ADD COLUMN gtkc double precision;
 
-ALTER TABLE berlin.routes ADD COLUMN hour_end integer;
-UPDATE berlin.routes SET hour_end = EXTRACT (hour from timestampend);
+-- Add GTKC from hexagons
+UPDATE berlin.routes SET gtkc = 1;
 
--- Add column with percental amount of trips for every our to each trip
-ALTER TABLE berlin.routes ADD COLUMN advert_daytime_score float;
-UPDATE berlin.routes
-SET advert_daytime_score = (daytime_score::float)/641780*100
-FROM berlin.advert_value
-WHERE berlin.routes.hour_end = berlin.advert_value.hour; 
+-- Change GTKC depending on daytime
+UPDATE berlin.routes SET gtkc = CASE
+ WHEN EXTRACT(hour from timestampend) > 6 AND EXTRACT(hour from nextstart) < 22 THEN gtkc*2
+ WHEN EXTRACT(hour from timestampend) > 22 OR EXTRACT(hour from timestampend) < 6  AND EXTRACT(hour from nextstart) < 6 THEN gtkc/2
+ ELSE gtkc
+END;
+
 
 -- Add column with advert-score
 ALTER TABLE berlin.routes ADD COLUMN advert integer;

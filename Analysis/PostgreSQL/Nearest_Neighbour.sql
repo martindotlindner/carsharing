@@ -38,9 +38,7 @@ ALTER TABLE berlin.routes ADD COLUMN nextstart timestamp;
 UPDATE berlin.routes
 SET    nextstart = berlin.standzeit.nextstart
 FROM   berlin.standzeit
-WHERE  berlin.routes.id = berlin.standzeit.id
-AND    berlin.routes.vehicleid = berlin.standzeit.vehicleid
-AND    berlin.routes.timestampstart = berlin.standzeit.timestampstart;
+WHERE  berlin.routes.id = berlin.standzeit.id;
 
 
 CREATE INDEX idx_berlin_routes_nextstart ON berlin.routes_sel(nextstart);

@@ -61,6 +61,6 @@ UPDATE germany.routes SET distance = ROUND(ST_Length(geom)::numeric,2) ;
 ALTER TABLE germany.routes ADD COLUMN mean_speed double precision;
 UPDATE germany.routes SET mean_speed = (distance/1000)/(EXTRACT(epoch FROM duration)/3600) ;  
 
-CREATE INDEX idx_germany_routes_speed ON germany.routes(mean_speed)
+CREATE INDEX idx_germany_routes_speed ON germany.routes(mean_speed);
 
 DELETE FROM germany.routes WHERE mean_speed > 100 ;

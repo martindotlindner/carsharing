@@ -23,8 +23,8 @@ WHERE provider = 'MULTICITY';
 
 -- Drop 'Umrüsterfahrten'
 
-DELETE FROM germany.routes
-WHERE streetstart = 'Umrüster DE' OR streetend = 'Umrüster DE' ;
+--DELETE FROM germany.routes
+-- WHERE streetstart = 'Umrüster DE' OR streetend = 'Umrüster DE' ;
 
 DELETE FROM germany.routes
 WHERE latitudestart < 1 OR longitudestart < 1 OR latitudeend < 1 OR longitudeend < 1 OR

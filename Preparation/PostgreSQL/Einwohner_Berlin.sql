@@ -55,14 +55,18 @@ E_E80U110 double precision);
 COPY berlin.ewr2015
 FROM 'C:/Users/Martin/Documents/Workaholic/TUD_Verkehr/Geodaten/Berlin/Strukturdaten/EWR201512E_Matrix.csv'  DELIMITER ';' CSV HEADER;
 
+-- Import shapefile with 'Planungsraum' from LOR (http://www.stadtentwicklung.berlin.de/planen/basisdaten_stadtentwicklung/lor/de/download.shtml)
 SELECT * INTO berlin.ewr2015_plr FROM berlin.planungsraum JOIN berlin.ewr2015 ON berlin.planungsraum.schluessel = berlin.ewr2015.raumid;
 
+-- Calculate population per hexagon
+/*
 COPY(
 SELECT berlin.hexagon_1km.gid, ST_AsText(berlin.hexagon_1km.geom), count(*)
  FROM berlin.hexagon_1km, berlin.ewr2015_plr
  WHERE ST_Intersects(berlin.ewr2015_plr.geom, berlin.hexagon_1km.geom)
  GROUP BY berlin.hexagon_1km.gid)
  TO 'C:/Program Files/PostgreSQL/9.5/data/EWR_E_E_Hexagon.csv' (format csv);
+*/
 
 
 	

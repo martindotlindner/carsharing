@@ -26,4 +26,16 @@ Further details:
 * a similiar problem in stackoverflow: http://stackoverflow.com/questions/34517386/unique-assignment-of-closest-points-between-two-tables
 * the query: [Nearest_Neighbour.sql](PostgreSQL/Nearest_Neighbour.sql)
 
+ ## Create hexagons with POI density
+ 1. [Import shapefile](https://github.com/martindotlindner/carsharing/wiki/Import-OSM-Data-into-a-PostGIS-Database) with POIs (point-layer from OSM)
+ 2. [Create](https://github.com/martindotlindner/carsharing/wiki/Create-Hexagons-with-QGIS) and import hexagons
+ 3. Calculate sum of POIs for each hexagon: [POI_Density_Hexagon.sql](PostgreSQL/POI_Density_Hexagon.sql)
+
+ ## Create hexagons with length of cycleway/pedestrian path
+ **Option I - using QGIS:** see [wiki article](https://github.com/martindotlindner/carsharing/wiki/Calculate-sum-of-cycleways-sidewalks-per-hexagon-in-QGIS)
  
+ **Option II - using PostGIS:**
+ 1. [Import shapefile](https://github.com/martindotlindner/carsharing/wiki/Import-OSM-Data-into-a-PostGIS-Database) with cycleways/sidewalks (from OSM)
+ 2. [Create](https://github.com/martindotlindner/carsharing/wiki/Create-Hexagons-with-QGIS) and import hexagons
+ 3. Calculate length of cycleways/sidewalks for each hexagon: [POI_Density_Hexagon.sql](PostgreSQL/Lenght_Lines_Hexagon.sql)
+

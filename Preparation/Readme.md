@@ -47,6 +47,8 @@ To reduce computing time, a reduction of your data is recommended. Furthermore, 
 
 # Data quality check
 ## Impact of free reservations from 0:00 - 6:00 o´clock at weekends on duration of trips
+1. Run the sql script: [Reservation_Effect.sql](PostgreSQL/Reservation_Effect.sql) (adjust the directory)
+2. Import csv-files and create two plots with: [Reservation_Effect.R](R/Reservation_Effect.R)
 
 
 

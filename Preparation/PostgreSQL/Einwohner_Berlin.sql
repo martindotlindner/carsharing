@@ -77,11 +77,6 @@ SELECT berlin.berlin_hexagon_1km.gid, berlin.berlin_hexagon_1km.geom, AVG((berli
  WHERE ST_Intersects(berlin.ewr2015_plr.geom, berlin.berlin_hexagon_1km.geom)
  GROUP BY berlin.berlin_hexagon_1km.gid;
 
-DROP TABLE if exists berlin.hexagon_population;
-SELECT berlin.berlin_hexagon_1km.gid, berlin.berlin_hexagon_1km.geom, AVG((berlin.ewr2015_plr.e_e)/(ST_Area(berlin.ewr2015_plr.geom)/1000000)) INTO berlin.hexagon_population
- FROM berlin.berlin_hexagon_1km, berlin.ewr2015_plr
- WHERE ST_Intersects(berlin.ewr2015_plr.geom, berlin.berlin_hexagon_1km.geom)
- GROUP BY berlin.berlin_hexagon_1km.gid;
 
 SELECT sum(((st_area (st_intersection (p.the_geom,c.the_geom))/st_area(c.the_geom))*ci.pop2000)) AS Parcels_pop
 FROM parcel_proj p, census_proj c, tgr39035sf1blk ci

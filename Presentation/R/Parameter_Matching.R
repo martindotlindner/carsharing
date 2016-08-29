@@ -8,33 +8,38 @@ setwd("C:/Program Files/PostgreSQL/9.5/data/")
 sales <- read.table("hexagon_sum_sales.csv",sep = ";",header = TRUE)
 sales_order <- arrange(sales, sum_sales_day)
 sales_order$x_seq <- seq(1,length(sales_order$gid))
+sales_order$sales_scale <- scale(sales_order$sum_sales_day)
+
 
 #Insert stops from GTFS per hexagon
 stops <- read.table("hexagon_sum_arrivals.csv",sep = ";",header = TRUE)
-stops$sum_arrivals_scale <- stops$sum_arrivals/10
-stops$sum_routes_scale <- stops$sum_routes*20
-stops$stops_scale <- stops$count_stops*100
+stops$sum_arrivals_scale <- scale(stops$sum_arrivals)
+stops$sum_routes_scale <- scale(stops$sum_routes)
+stops$stops_scale <- scale(stops$count_stops)
 
 #Insert restaurant per hexagon
 restaurants <- read.table("hexagon_count_restaurant.csv",sep = ";",header = TRUE)
-restaurants$restaurants_scale <- restaurants$count_restaurant*100
+restaurants$restaurants_scale <- scale(restaurants$count_restaurant)
 
 
 #Insert aerodroms from OSM per hexagon
 aerodroms <- read.table("hexagon_aerodroms.csv",sep = ";",header = TRUE)
-aerodroms$aerodroms_scale <- aerodroms$sum_passengers/6000
+aerodroms$aerodroms_scale <- scale(aerodroms$sum_passengers)
  
-
-hex_merge <- join_all(list(sales_order,stops, restaurants, aerodroms), by = c("gid", "st_astext"), type = 'left')
 
 #Insert IKEA from OSM per hexagon
 ikea <- read.table("hexagon_ikea.csv",sep = ";",header = TRUE)
 ## Scaling IKEA: population of city/number of shops
-ikea$ikea_scale <- ikea$count_ikea*3520031/3/1000
+ikea$ikea_scale <- scale(ikea$count_ikea)
+
+#Insert population density per hexagon
+pop_density <- read.table("hexagon_pop_density.csv",sep = ";",header = TRUE)
+## Scaling IKEA: population of city/number of shops
+pop_density$pop_dens_scale <- scale(pop_density$mean)
 
 
 #Merging all criteria
-hex_merge <- join_all(list(sales_order,stops, restaurants, aerodroms,ikea), by = c("gid", "st_astext"), type = 'left')
+hex_merge <- join_all(list(sales_order,stops, restaurants, aerodroms,ikea,pop_density), by = c("gid"), type = 'left')
 hex_merge[is.na(hex_merge)] <- 0
 
 
@@ -44,13 +49,15 @@ hex_merge$score <- (hex_merge$restaurants_scale*0.6) + (hex_merge$ikea_scale * 0
 
 
 ggplot(hex_merge, aes(x = x_seq))+
-  geom_line(aes(y=sum_sales_day,colour = "Sales"))+
+ # geom_line(aes(y=sum_sales_day,colour = "Sales"))+
+  geom_line(aes(y=sales_scale,colour = "Sales"))+
  # geom_line(aes(y=sum_arrivals_scale,colour = "Arrivals"))+
-  geom_line(aes(y=restaurants_scale,colour = "Restaurants"))+
-  geom_line(aes(y=score,colour = "Score"))+
+ # geom_line(aes(y=restaurants_scale,colour = "Restaurants"))+
+#  geom_line(aes(y=score,colour = "Score"))+
+   geom_line(aes(y=pop_dens_scale,colour = "Score"))+
 #  geom_point(aes(y=sum_passengers,colour = "Passengers"))+
 #  geom_point(aes(y=ikea_scale,colour = "IKEA"))+
-  ylab("Sales per hexagon per day in € and count of cafes per hexagon")+
+  ylab("Sales per hexagon per day and count of cafes per hexagon")+
   xlab("Hexagon ID")
 
 cor(hex_merge$sum_sales_day,hex_merge$restaurants_scale,method = "spearman",use="pairwise.complete.obs")

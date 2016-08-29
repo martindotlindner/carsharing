@@ -57,33 +57,25 @@ FROM 'C:/Users/Martin/Documents/Workaholic/TUD_Verkehr/Geodaten/Berlin/Strukturd
 
 -- Import shapefile with 'Planungsraum' from LOR (http://www.stadtentwicklung.berlin.de/planen/basisdaten_stadtentwicklung/lor/de/download.shtml)
 SELECT * INTO berlin.ewr2015_plr FROM berlin.planungsraum JOIN berlin.ewr2015 ON berlin.planungsraum.schluessel = berlin.ewr2015.raumid;
+
+--Calculate population density
+ALTER TABLE berlin.ewr2015_plr DROP COLUMN if exists pop_density;
 ALTER TABLE berlin.ewr2015_plr ADD COLUMN pop_density double precision;
 UPDATE berlin.ewr2015_plr SET pop_density = e_e/(ST_Area(berlin.ewr2015_plr.geom)/1000000);
--- Calculate population per hexagon
-/*
-COPY(
-SELECT berlin.hexagon_1km.gid, ST_AsText(berlin.berlin_hexagon_1km.geom), count(*)
- FROM berlin.berlin_hexagon_1km, berlin.ewr2015_plr
- WHERE ST_Intersects(berlin.ewr2015_plr.geom, berlin.berlin_hexagon_1km.geom)
- GROUP BY berlin.berlin_hexagon_1km.gid)
- TO 'C:/Program Files/PostgreSQL/9.5/data/EWR_E_E_Hexagon.csv' (format csv);
-*/
+
+--Calculate peer group density
+ALTER TABLE berlin.ewr2015_plr DROP COLUMN if exists pop_density_peergroup;
+ALTER TABLE berlin.ewr2015_plr ADD COLUMN pop_density_peergroup double precision;
+UPDATE berlin.ewr2015_plr SET pop_density_peergroup = (e_e25_27+e_e27_30+e_e30_35+e_e35_40+e_e40_45/(ST_Area(berlin.ewr2015_plr.geom)/1000000));
+
+--Calculate percentage of peer group
+ALTER TABLE berlin.ewr2015_plr DROP COLUMN if exists peergroup_percent;
+ALTER TABLE berlin.ewr2015_plr ADD COLUMN peergroup_percent double precision;
+UPDATE berlin.ewr2015_plr SET peergroup_percent = ((e_e25_27+e_e27_30+e_e30_35+e_e35_40+e_e40_45/e_e)*100);
 
 
---Create hexagons with population density
-DROP TABLE if exists berlin.hexagon_population;
-SELECT berlin.berlin_hexagon_1km.gid, berlin.berlin_hexagon_1km.geom, AVG((berlin.ewr2015_plr.e_e)/(ST_Area(berlin.ewr2015_plr.geom)/1000000)) INTO berlin.hexagon_population
- FROM berlin.berlin_hexagon_1km, berlin.ewr2015_plr
- WHERE ST_Intersects(berlin.ewr2015_plr.geom, berlin.berlin_hexagon_1km.geom)
- GROUP BY berlin.berlin_hexagon_1km.gid;
 
 
-SELECT sum(((st_area (st_intersection (p.the_geom,c.the_geom))/st_area(c.the_geom))*ci.pop2000)) AS Parcels_pop
-FROM parcel_proj p, census_proj c, tgr39035sf1blk ci
-WHERE ST_Intersects(p.the_geom,c.the_geom) and ci.stfid=c.stfid;
-
-
- 
 	
 
 

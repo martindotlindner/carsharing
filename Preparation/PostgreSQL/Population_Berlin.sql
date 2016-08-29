@@ -66,12 +66,12 @@ UPDATE berlin.ewr2015_plr SET pop_density = e_e/(ST_Area(berlin.ewr2015_plr.geom
 --Calculate peer group density
 ALTER TABLE berlin.ewr2015_plr DROP COLUMN if exists pop_density_peergroup;
 ALTER TABLE berlin.ewr2015_plr ADD COLUMN pop_density_peergroup double precision;
-UPDATE berlin.ewr2015_plr SET pop_density_peergroup = (e_e25_27+e_e27_30+e_e30_35+e_e35_40+e_e40_45/(ST_Area(berlin.ewr2015_plr.geom)/1000000));
+UPDATE berlin.ewr2015_plr SET pop_density_peergroup = ((e_e25_27+e_e27_30+e_e30_35+e_e35_40+e_e40_45)/(ST_Area(berlin.ewr2015_plr.geom)/1000000));
 
 --Calculate percentage of peer group
 ALTER TABLE berlin.ewr2015_plr DROP COLUMN if exists peergroup_percent;
 ALTER TABLE berlin.ewr2015_plr ADD COLUMN peergroup_percent double precision;
-UPDATE berlin.ewr2015_plr SET peergroup_percent = ((e_e25_27+e_e27_30+e_e30_35+e_e35_40+e_e40_45/e_e)*100);
+UPDATE berlin.ewr2015_plr SET peergroup_percent = (((e_e25_27+e_e27_30+e_e30_35+e_e35_40+e_e40_45)/e_e)*100);
 
 
 

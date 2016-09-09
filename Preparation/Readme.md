@@ -14,7 +14,7 @@ Only necessary for raw CSV files from parsing server:  preprocessing of raw CSV 
 ## Import FFCS-Data
 ### Copy CSV files into PostgreSQL
 1. Create table in PostgreSQL: [Import_Routes_World.sql](PostgreSQL/Import_Routes_World.sql)
-2. Change security settings of CSV files (right click in file/flolder, *Properties* -> *Security* tab -> click *Add* and add user *Everyone* with permission to read/execute 
+2. Change security settings of CSV files (right click in file/flolder, *Properties* -> *Security* tab -> click *Add* and add user *Everyone*/*Jeder*
 2. Import all CSV files 
   * if there are multiple files within one directory you can use [Import_CSV_SQL_Query.R](R/Import_CSV_SQL_Query.R)
   * for a single CSV file use a query like this: 

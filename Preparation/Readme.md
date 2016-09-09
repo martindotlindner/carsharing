@@ -13,15 +13,17 @@ Only necessary for raw CSV files from parsing server:  preprocessing of raw CSV 
 # Import data to PostgreSQL<a id="Import_Data"></a>
 ## Import FFCS-Data
 ### Copy CSV files into PostgreSQL
-1. Create table in PostgreSQL: [Import_Routes_World.sql](PostgreSQL/Import_Routes_World.sql) 
+1. Create table in PostgreSQL: [Import_Routes_World.sql](PostgreSQL/Import_Routes_World.sql)
+2. Change security settings of CSV files (right click in file/flolder, *Properties* -> *Security* tab -> click *Add* and add user *Everyone* with permission to read/execute 
 2. Import all CSV files 
   * if there are multiple files within one directory you can use [Import_CSV_SQL_Query.R](R/Import_CSV_SQL_Query.R)
   * for a single CSV file use a query like this: 
-  
-'''sql
-COPY world.routes (TIMESTAMPSTART, TIMESTAMPEND, PROVIDER, VEHICLEID, LICENCEPLATE, MODEL, INNERCLEANLINESS, OUTERCLEANLINESS, FUELTYPE, FUELSTATESTART, FUELSTATEEND, CHARGINGONSTART, CHARGINGONEND, STREETSTART, STREETEND, LATITUDESTART, LONGITUDESTART, LATITUDEEND, LONGITUDEEND)'''
+ 
+```sql
+COPY world.routes (TIMESTAMPSTART, TIMESTAMPEND, PROVIDER, VEHICLEID, LICENCEPLATE, MODEL, INNERCLEANLINESS, OUTERCLEANLINESS, FUELTYPE, FUELSTATESTART, FUELSTATEEND, CHARGINGONSTART, CHARGINGONEND, STREETSTART, STREETEND, LATITUDESTART, LONGITUDESTART, LATITUDEEND, LONGITUDEEND)
+FROM 'C:/Users/xxx/utf/2015-09.csv' NULL AS 'NA' DELIMITER ';' ;
+```
 
-FROM 'C:/Users/Martin/Documents/Workaholic/TUD_Verkehr/Rohdaten/floating/utf/2015-09.csv' NULL AS 'NA' DELIMITER ';' ;
 3. Calculate geometry column and gist-indexes: [Add_Geometry_World_Routes.sql](PostgreSQL/Add_Geometry_World_Routes.sql)
 4. Create indexes on following columns: timestampstart, timestampend, provider,  to increase performance: [Create_Indexes.sql](PostgreSQL/Create_Indexes.sql)
 5. `VACUUM ANALYZE world.routes`

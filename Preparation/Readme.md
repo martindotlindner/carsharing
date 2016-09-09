@@ -1,20 +1,20 @@
 # Table of Contents
 
 * [Preparation](#Preparation)
-* [Import Data to PostgreSQL](#Import_Data)  
+* [Import data to PostgreSQL](#Import_Data)  
 * [Remove errors and calculate parameters](#Calc_Parameters) 
 * [Summarized workflow](#Workflow)
 
 
-# Preparation of FFCS-Data <a id="Preparation"></a>
-Only necessary for converted csv-files Server:  Preprocessing of raw csv-files in R with [Import_Floating.R](R/Import_Floating.R) (convert to UTF-8, set NA-strings, fix decimal problems)
+# Preparation of CSV files <a id="Preparation"></a>
+Only necessary for raw CSV files from parsing server:  preprocessing of raw CSV files in R with [Import_Floating.R](R/Import_Floating.R) (convert to UTF-8, set NA-strings, fix decimal problems, remove header)
 
 
-# Import Data to PostgreSQL<a id="Import_Data"></a>
+# Import data to PostgreSQL<a id="Import_Data"></a>
 ## Import FFCS-Data
-### Copy csv files into PostgreSQL
+### Copy CSV files into PostgreSQL
 1. Create table in PostgreSQL: [Import_Routes_World.sql](PostgreSQL/Import_Routes_World.sql) 
-2. Import all csv-files (if there are multiple files within one directory you can use [Import_CSV_SQL_Query.R](R/Import_CSV_SQL_Query.R.R)
+2. Import all CSV files (if there are multiple files within one directory you can use [Import_CSV_SQL_Query.R](R/Import_CSV_SQL_Query.R.R)
 3. Calculate geometry column and gist-indexes: [Add_Geometry_World_Routes.sql](PostgreSQL/Add_Geometry_World_Routes.sql)
 4. Create indexes on following columns: timestampstart, timestampend, provider,  to increase performance: [Create_Indexes.sql](PostgreSQL/Create_Indexes.sql)
 5. `VACUUM ANALYZE world.routes`

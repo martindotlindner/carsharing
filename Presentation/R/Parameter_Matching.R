@@ -38,17 +38,33 @@ ikea <- read.table("hexagon_ikea.csv",sep = ";",header = TRUE)
 ## Scaling IKEA: population of city/number of shops
 ikea$ikea_scale <- scale(ikea$count_ikea)
 
+#Insert Shopping Malls from OSM/Wikipedia per hexagon
+mall <- read.table("hexagon_mall.csv",sep = ";",header = TRUE)
 
+park <-  read.table("hexagon_park.csv",sep = ";",header = TRUE)
 
 #Merging all criteria
-hex_merge <- join_all(list(sales_order,stops, restaurants, aerodroms,ikea,pop_density), by = c("gid"), type = 'left')
+hex_merge <- join_all(list(sales_order,stops, restaurants, aerodroms,ikea,pop_density,mall,park), by = c("gid"), type = 'left')
 hex_merge[is.na(hex_merge)] <- 0
 
 
 
 #Utility Analysis
 hex_merge$score <- (hex_merge$restaurants_scale*0.3) + (hex_merge$pop_density_peer_scale*0.3) + (hex_merge$ikea_scale * 0.2) + (hex_merge$sum_arrivals_scale * 0.2)
+hex_merge$score_abs <- ((hex_merge$count_restaurant*10)*0.3) + 
+  (hex_merge$Pop_Density_Peermean/5*0.2) + 
+  (hex_merge$count_ikea*1000*0.2) + 
+  (hex_merge$sum_arrivals/10 * 0.1) + 
+  (hex_merge$sum_passengers/10000 * 0.1) +
+  (hex_merge$prop_shoppingarea * 0.1)
 
+ggplot(hex_merge, aes(x = x_seq))+
+      geom_line(aes(y=sum_sales_day,colour = "Sales"))+
+   #   geom_line(aes(y=score_abs,colour = "Variable"))+
+      geom_point(aes(y=prop_shoppingarea/30),na.rm = TRUE)+
+      ylab("Sales per hexagon per day and count of cafes per hexagon")+
+      xlab("Hexagon ID")
+                    
 
 ggplot(hex_merge, aes(x = x_seq))+
  # geom_line(aes(y=sum_sales_day,colour = "Sales"))+
@@ -78,3 +94,6 @@ cor_data <- hex_merge[c(3,7:9,24:26)]
 cor_df <- cor(cor_data,method = "spearman",use="pairwise.complete.obs")
 corrgram(cor_df, order = TRUE, lower.panel = panel.shade, upper.panel = panel.pie, 
          text.panel = panel.txt, main = "Correlation structural data")
+
+shapiro.test(hex_merge$Pop_Densitymean)
+histogram(hex_merge$Pop_Densitymean)

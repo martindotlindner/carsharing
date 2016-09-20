@@ -5,8 +5,9 @@
 
 
 # OSM data <a id="OSM_data"></a>
+
 ##Import OSM data to a PostgreSQL database
-## Option 1: osm2pgsql
+### Option 1: osm2pgsql
 Note: this is the preferred options, since most of the scripts are based in this data structure
 #### Windows
 

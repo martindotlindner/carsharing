@@ -39,12 +39,6 @@ To reduce computing time, a reduction of your data is recommended. Furthermore, 
 1. Select Routes within Berlin [Select_Into_Berlin_Routes.sql](PostgreSQL/Select_Into_Berlin_Routes.sql)
 
 
-## Optional: Import Operating Areas <a id="Operating_Areas"></a>
-1. Download operating areas as kml-files from Car2Go: [operatingarea_car2go.R](Data/R/operatingarea_car2go.R) You need a API-KEY for this (see https://github.com/car2go/openAPI)
-2. Import kml-files to PostgreSQL-Database with ogr2ogr: [Add_Operating_Area_kml_with_ogr2ogr.txt](PostgreSQL/Add_Operating_Area_kml_with_ogr2ogr.txt), Change your settings (EPSG-Code, port, dbname, password and filenames)!
-3. Change geometry from lines to polygons [OperatingArea_Line_to_Polygon.sql](Preparation/PostgreSQL/OperatingArea_Line_to_Polygon.sql)
-
-
 # Remove errors and calculate parameters<a id="Calc_Parameters"></a>
 1. Create indexes on following columns: timestampstart, timestampend, provider,  to increase performance: [Create_Indexes.sql](PostgreSQL/Create_Indexes.sql) Performe 'Vacuum Analzye' afterwards!
 2. Remove errors - Part I: Remove 'Umrüsterfahrten', all trips from 'Multicity' and coordinates < 1 and > 90 (negative coordinates and coordinates above 90 degree leads to errors when calculation geometry with local coordinate reference system) [Remove_Errors_Step1.sql](PostgreSQL/Remove_Errors.sql)

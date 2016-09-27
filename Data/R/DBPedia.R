@@ -30,7 +30,7 @@ OPTIONAL{?place                 geo:long ?longitude .}
 OPTIONAL{?place                 geo:lat ?latitude .}
 
 ?place                  dbpedia-owl:icaoLocationIdentifier ?icao .
-FILTER (?icao LIKE ""ED%"")
+FILTER (?icao LIKE \"ED%\")
 }  "
 airport<-SPARQL("http://de.dbpedia.org/sparql", query=query)
 
@@ -57,10 +57,10 @@ WHERE
 OPTIONAL{?place                   dbpprop-de:region  ?region   .}
 OPTIONAL{?place                 geo:long ?longitude .}
 OPTIONAL{?place                 geo:lat ?latitude .}
+#FILTER ( lang(?country) = 'de' and regex(?country, \"DE\")) 
 }
 LIMIT 100 "
 
-#FILTER ( lang(?country) = 'de' and regex(?country, "DE")) 
 
 
 shopping<-SPARQL("http://de.dbpedia.org/sparql", query=query_shopping)
@@ -85,14 +85,12 @@ SELECT DISTINCT  ?name
 
 WHERE 
 {
-  ?place               rdf:type: City  .
+  ?place               rdf:type <http://dbpedia.org/ontology/City>  .
   ?place               rdfs:label ?name .
   ?place            dbo:populationTotal ?population .
   ?place               dbo:areaTotal ?area  .
-  OPTIONAL{?place           dbo:populationDensity ?PopDensity .}
-  ?place             dbo:country:Germany.
+  ?place             dbo:country:Germany   .
   FILTER ( lang(?name) = 'de' AND ?population > 100000) 
-
 }
 
 "
@@ -100,3 +98,19 @@ city<-SPARQL("http://dbpedia.org/sparql", query=query_city)
 city_df <- data.frame(city[1])
 colnames(city_df) <- c("name", "area", "population")
 city_df$popdensity <- city_df$population/(city_df$area/1000000)
+
+#Staff members
+select distinct 
+?name 
+?staff
+?coodinates
+?lat
+?lon
+where {
+  ?uni dbo:country :Germany .
+  ?uni  dbp:name ?name .
+  ?uni dbo:staff ?staff.
+  OPTIONAL{?uni georss:point ?coordinates .
+    ?uni geo:lat ?lat .
+    ?uni geo:long ?lon . }
+} 

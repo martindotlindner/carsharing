@@ -10,6 +10,27 @@ SELECT berlin.berlin_hexagon_1km.gid, (SUM(berlin.routes.sales))/60 as sum_sales
  GROUP BY berlin.berlin_hexagon_1km.gid)
 TO 'C:/Program Files/PostgreSQL/9.5/data/hexagon_sum_sales.csv' DELIMITER ';' CSV HEADER;
 
+--Create weighted population density and other population parameter for each hexagon (peergroup: 25y-45y)
+
+--repair geometry of population layer
+DROP TABLE if exists berlin.ewr2015_plr_valid;
+SELECT ST_MakeValid(geom),* INTO berlin.ewr2015_plr_valid FROM berlin.ewr2015_plr ;
+UPDATE berlin.ewr2015_plr_valid SET geom = ST_CollectionExtract(st_makevalid, 3);
+
+--calculate weighed population density for each hexagon
+
+COPY(
+SELECT h.gid,
+sum(((st_area (st_intersection (h.geom,e.geom))/st_area(e.geom))*e.pop_density)) AS pop_density,
+sum(((st_area (st_intersection (h.geom,e.geom))/st_area(e.geom))*e.pop_density_peergroup)) AS pop_density_peergroup,
+avg(((st_area (st_intersection (h.geom,e.geom))/st_area(e.geom))*e.peergroup_percent)) AS peergroup_percent
+FROM berlin.berlin_hexagon_1km h, berlin.ewr2015_plr_valid e
+ WHERE ST_Intersects(e.geom, h.geom)
+GROUP BY h.gid)
+TO 'C:/Program Files/PostgreSQL/9.5/data/hexagon_population.csv' DELIMITER ';' CSV HEADER;
+
+
+
 --Import GTFS-stops and create sum of arrivals/routes for each hexagon
 DROP TABLE if exists berlin.weighted_stops;
 CREATE TABLE berlin.weighted_stops(
@@ -51,7 +72,7 @@ TO 'C:/Program Files/PostgreSQL/9.5/data/hexagon_sum_arrivals.csv' DELIMITER ';'
 --Create sum of cafes+restaurants (based on OSM) for each hexagon
 DROP TABLE if exists berlin.osm_point_restaurant;
 CREATE TABLE berlin.osm_point_restaurant AS
-SELECT name, geom_25833, ST_AsText(geom_25833), amenity FROM berlin.osm_point 
+SELECT name, geom_25833, amenity FROM berlin.osm_point 
 WHERE amenity = 'restaurant' OR amenity = 'cafe' OR amenity = 'pub' OR amenity = 'bar';
 
 COPY(

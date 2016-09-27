@@ -13,9 +13,9 @@ sales_order$sales_scale <- scale(sales_order$sum_sales_day)
 
 #Insert population density per hexagon
 pop_density <- read.table("hexagon_population.csv",sep = ";",header = TRUE)
-pop_density$pop_density_scale <- scale(pop_density$Pop_Densitymean)
-pop_density$pop_density_peer_scale <- scale(pop_density$Pop_Density_Peermean)
-pop_density$peergroup_percent_scale <- scale(pop_density$Peergroup_Percentmean)
+#pop_density$pop_density_scale <- scale(pop_density$Pop_Densitymean)
+#pop_density$pop_density_peer_scale <- scale(pop_density$Pop_Density_Peermean)
+#pop_density$peergroup_percent_scale <- scale(pop_density$Peergroup_Percentmean)
 
 #Insert stops from GTFS per hexagon
 stops <- read.table("hexagon_sum_arrivals.csv",sep = ";",header = TRUE)

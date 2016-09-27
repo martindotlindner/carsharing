@@ -1,7 +1,22 @@
 
 # Table of Contents
+* [Geocoding](#Geocoding)
 * [OSM data](#OSM_data)
 * [Operating Area](#Operating_Area)
+
+# Geocoding <a id="Geocoding"></a>
+## Getting formatted data with place name
+Prerequisite for geocoding record is the presence of a place name like an address and a readable formatting of the table. 
+
+###  Example 1: Shopping Malls in Berlin
+1. Download [pdf](https://www.ihk-berlin.de/blob/bihk24/produktmarken/branchen/handel/2271598/e7e05a510e6f1cf8431c84d2e9ca20f8/Shoppingcenter_Berlin-data.pdf) 
+2. Convert pdf to csv with a tool like https://pdftables.com/ or http://tabula.technology/
+3. Manual editing to get clear table with name, adress, shopping area...
+4. Save as csv-file
+
+##Geocoding adresses with GoogleMaps API in R
+
+
 
 
 # OSM data <a id="OSM_data"></a>

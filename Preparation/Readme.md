@@ -44,7 +44,7 @@ To reduce computing time, a reduction of your data is recommended. Furthermore, 
 2. Remove errors - Part I: Remove 'Umrüsterfahrten', all trips from 'Multicity' and coordinates < 1 and > 90 (negative coordinates and coordinates above 90 degree leads to errors when calculation geometry with local coordinate reference system) [Remove_Errors_Step1.sql](PostgreSQL/Remove_Errors.sql)
 3. Add and calculate geometry columns for trips within Berlin with SRID 25833 [Add_Geometry_Berlin_Routes.sql](PostgreSQL/Add_Geometry_Berlin_Routes.sql)
 4. Calculate basic parameters like duration of trip, distance, mean speed, e.g. [Calculate_Parameter.sql](PostgreSQL/Calculate_Parameter.sql)
-5. Calculate sales based on the pricing of the providers: [Calculate_Sales.sql](Preparation/PostgreSQL/Calculate_Sales.sql)
+5. Calculate sales based on the pricing of the providers: [Calculate_Sales.sql](https://github.com/martindotlindner/carsharing/blob/master/Analysis/PostgreSQL/Sales_per_Vehicles.sql)
 6. Remove errors - Part II: Remove trips with unlikly speed or duration [Remove_Errors_Step2.sql](PostgreSQL/Remove_Errors_Step2.sql)
 7. Remove errors - Part III: Create query to remove outliers based on in R [Remove_Outliers.R](R/Remove_Outliers.R), run created query afterwards
 

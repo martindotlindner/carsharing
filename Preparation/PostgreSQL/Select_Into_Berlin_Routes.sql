@@ -1,4 +1,4 @@
-﻿CREATE SCHEMA if not exists Berlin;
+﻿CREATE SCHEMA if not exists berlin;
 DROP TABLE if exists berlin.routes ;
 
 -- Create two tables, on with important columns (germany.routes) and one with rarely used information (germany.routes_meta)

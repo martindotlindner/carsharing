@@ -14,10 +14,19 @@ Prerequisite for geocoding record is the presence of a place name like an addres
 3. Manual editing to get clear table with name, adress, shopping area...
 4. Save as csv-file
 
-##Geocoding adresses with GoogleMaps API in R
+###  Example 2: Airports in Germany
+1. Download [xlxs](https://www.destatis.de/DE/Publikationen/Thematisch/TransportVerkehr/Luftverkehr/Luftverkehr2080600161065.xlsx?__blob=publicationFile) from the [Federal Statistical Office](https://www.destatis.de/DE/Publikationen/Thematisch/TransportVerkehr/Luftverkehr/Luftverkehr.html)
+2. Copy required information (e.g. table 1.1.2) to new sheet
+3. Manual editing header if necessary
+4. Save as csv-file
 
+##Geocoding adresses with a Google Maps API in R
+To get xy-coordinates from an address, you can make use of Google Maps API. There are a couple of ways to integrate this API in R, for example [ggmaps](https://cran.r-project.org/web/packages/ggmap/index.html).
 
+Here is a code example for geocoding shopping malls in Berlin: [Geocoding_Addresses_ggmap.R](R/Geocoding_Addresses_ggmap.R)
+Here is a code example for geocoding airports in Germany: [Geocoding_Airports_ggmap.R](R/Geocoding_Airports_ggmap.R)
 
+Note that the free version of Google Maps Geocoding API is limited to 2500 requests per day!
 
 # OSM data <a id="OSM_data"></a>
 

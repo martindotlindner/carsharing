@@ -1,3 +1,5 @@
+###Run following query to get required csv-data: https://github.com/martindotlindner/carsharing/blob/master/Analysis/PostgreSQL/Sales_per_Vehicles.sql
+
 library(ggplot2)
 library(plyr)
 

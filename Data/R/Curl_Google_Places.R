@@ -2,7 +2,7 @@ library(RCurl)
 library(RJSONIO)
 library(plyr)
 
-url <- "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=52.388,13.52&radius=5000&key=AIzaSyA9xYv7kr8j9HIEhA8Jr1SBUL1pZ2idJVo"
+url <- "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=52.518611,13.408333&radius=10000&key=AIzaSyA9xYv7kr8j9HIEhA8Jr1SBUL1pZ2idJVo&type=bicycle_store"
 places <- fromJSON(url,simplify = FALSE)
 
 lat <- places$results$geometry$location$lat

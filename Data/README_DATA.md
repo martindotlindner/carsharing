@@ -65,7 +65,30 @@ Some links for help:
 ```
 wget "http://download.geofabrik.de/europe/germany-latest.osm.pbf"
 ```
-2. 
+
+2. Install osm2pgsql (further information: [http://wiki.openstreetmap.org](http://wiki.openstreetmap.org/wiki/Osm2pgsql#For_Debian_or_Ubuntu)):
+```
+apt-get install osm2pgsql
+```
+3. To add some important columns to default settings, open default.style and add following lines at line ~150
+```
+...
+node,way   capacity     text         linear
+node,way   iata         text         linear
+node,way   passengers   text         linear
+```
+
+4. Create new database if required, create new extension 'postgis' and 'hstore'
+In psql: ```CREATE EXTENSION hstore```
+
+In Terminal: ```psql -d carsharing -c 'create extension hstore;```
+
+5. Execute osm2pgsql command (customize parameters)
+```
+osm2pgsql --create --slim --cache 4000 --number-processes 2 --hstore --multi-geometry /home/martinlindner/Data/Geodata/OSM/germany-latest.osm.pbf -d carsharing -U martinlindner -H localhost -S /usr/share/osm2pgsql/default.style -W --prefix germany_osm
+```
+
+6. Wait about 2 hours 
 
 ## Option 2: Shapefile-Import
 

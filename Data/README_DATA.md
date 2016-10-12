@@ -44,12 +44,15 @@ node,way   capacity     text         linear
 node,way   iata         text         linear
 node,way   passengers   text         linear
 ```
+
 4. Create new database if required, create new extension 'postgis' and 'hstore'
 5. Run cmd, change directory to osm2pgsql and import osm.pbf-file via commandline (like this:
 
-```osm2pgsql --create --slim --cache 1000 --number-processes 2 --hstore --multi-geometry berlin-latest.osm.pbf -d osm -U postgres -H localhost -S default.style -W --prefix berlin_osm```
+```
+osm2pgsql --create --slim --cache 1000 --number-processes 2 --hstore --multi-geometry berlin-latest.osm.pbf -d osm -U postgres -H localhost -S default.style -W --prefix berlin_osm
+```
 
-6. After import you can change the schema of the tables with following script:[Set_Schema_OSM.sql](PostgreSQL/Set_Schema_OSM.sql)
+6. After import you can change the schema of the tables with following script: [Set_Schema_OSM.sql](PostgreSQL/Set_Schema_OSM.sql)
 
 Fore more infos about all options click [here](http://www.volkerschatz.com/net/osm/osm2pgsql-usage.html).
 
@@ -58,6 +61,11 @@ Some links for help:
 * [http://wiki.openstreetmap.org](http://wiki.openstreetmap.org/wiki/DE:Ajoessen/Postgis)
 
 ### Linux
+1. Download OSM-data from [Geofabrik](http://download.geofabrik.de/europe/germany.html) in osm.pbf-format via Terminal
+```
+wget "http://download.geofabrik.de/europe/germany-latest.osm.pbf"
+```
+2. 
 
 ## Option 2: Shapefile-Import
 

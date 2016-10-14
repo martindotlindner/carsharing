@@ -38,19 +38,20 @@ Note: this is the preferred options, since most of the scripts are based in this
 1. Download OSM-data from [Geofabrik](http://download.geofabrik.de/europe/germany.html) in osm.pbf-format (download also a smaller dataset, e.g. Berlin, to test the import, otherwise it will be a bit time consuming)
 2. Install Osm2pgsql following this instruction: [http://wiki.openstreetmap.org](http://wiki.openstreetmap.org/wiki/Osm2pgsql#Windows)
 3. To add some important columns to default settings, open default.style and add following lines at line ~150
-```
-...
-node,way   capacity     text         linear
-node,way   iata         text         linear
-node,way   passengers   text         linear
-```
 
+    ```
+    ...
+    node,way   capacity     text         linear
+    node,way   iata         text         linear
+    node,way   passengers   text         linear
+    ```
+    
 4. Create new database if required, create new extension 'postgis' and 'hstore'
 5. Run cmd, change directory to osm2pgsql and import osm.pbf-file via commandline (like this:
 
-```
-osm2pgsql --create --slim --cache 1000 --number-processes 2 --hstore --multi-geometry berlin-latest.osm.pbf -d osm -U postgres -H localhost -S default.style -W --prefix berlin_osm
-```
+    ```
+    osm2pgsql --create --slim --cache 1000 --number-processes 2 --hstore --multi-geometry berlin-latest.osm.pbf -d osm -U           postgres -H localhost -S default.style -W --prefix berlin_osm
+    ```
 
 6. After import you can change the schema of the tables with following script: [Set_Schema_OSM.sql](PostgreSQL/Set_Schema_OSM.sql)
 
@@ -62,21 +63,24 @@ Some links for help:
 
 ### Linux
 1. Download OSM-data from [Geofabrik](http://download.geofabrik.de/europe/germany.html) in osm.pbf-format via Terminal
-```
-wget "http://download.geofabrik.de/europe/germany-latest.osm.pbf"
-```
+
+    ```
+    wget "http://download.geofabrik.de/europe/germany-latest.osm.pbf"
+    ```
 
 2. Install osm2pgsql (further information: [http://wiki.openstreetmap.org](http://wiki.openstreetmap.org/wiki/Osm2pgsql#For_Debian_or_Ubuntu)):
-```
-apt-get install osm2pgsql
-```
+
+    ```
+    apt-get install osm2pgsql
+    ```
 3. To add some important columns to default settings, open default.style and add following lines at line ~150
-```
-...
-node,way   capacity     text         linear
-node,way   iata         text         linear
-node,way   passengers   text         linear
-```
+
+    ```
+    ...
+    node,way   capacity     text         linear
+    node,way   iata         text         linear
+    node,way   passengers   text         linear
+    ```
 
 4. Create new database if required, create new extension 'postgis' and 'hstore'
 In psql: ```CREATE EXTENSION hstore```
@@ -84,9 +88,10 @@ In psql: ```CREATE EXTENSION hstore```
 In Terminal: ```psql -d carsharing -c 'create extension hstore;```
 
 5. Execute osm2pgsql command (customize parameters)
-```
-osm2pgsql --create --slim --cache 4000 --number-processes 2 --hstore --multi-geometry /home/martinlindner/Data/Geodata/OSM/germany-latest.osm.pbf -d carsharing -U martinlindner -H localhost -S /usr/share/osm2pgsql/default.style -W --prefix germany_osm
-```
+
+    ```
+    osm2pgsql --create --slim --cache 4000 --number-processes 2 --hstore --multi-geometry /home/martinlindner/Data/Geodata    /OSM/germany-latest.osm.pbf -d carsharing -U martinlindner -H localhost -S /usr/share/osm2pgsql/default.style -W --prefix     germany_osm
+    ```
 
 6. Wait about 25 hours 
 
@@ -96,9 +101,9 @@ osm2pgsql --create --slim --cache 4000 --number-processes 2 --hstore --multi-geo
 2.  [[Import Shapefile into a PostGIS Database]]
 3.  Transform projection:
 
-```
-ALTER TABLE berlin.osm_point DROP COLUMN if exists geom_25832;
-SELECT  AddGeometryColumn(
+    ```
+    ALTER TABLE berlin.osm_point DROP COLUMN if exists geom_25832;
+    SELECT  AddGeometryColumn(
 	'berlin',
 	'osm_point',
 	'geom_25832',
@@ -106,8 +111,8 @@ SELECT  AddGeometryColumn(
 	'POINT'
 	,2);
 
-UPDATE berlin.osm_point SET geom_25832 = ST_Transform(geom, 25832);
-```
+    UPDATE berlin.osm_point SET geom_25832 = ST_Transform(geom, 25832);
+    ```
 
 ## Option 3: Osmosis
 Osmosis provides also a good option to import osm-files. See following [link](http://wiki.openstreetmap.org/wiki/Osmosis/PostGIS_Setup) for installing options. In comparison to osm2pgsql, all tags are written into one column, which have to be read with pgsql.

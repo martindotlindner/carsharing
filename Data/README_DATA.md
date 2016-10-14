@@ -88,7 +88,7 @@ In Terminal: ```psql -d carsharing -c 'create extension hstore;```
 osm2pgsql --create --slim --cache 4000 --number-processes 2 --hstore --multi-geometry /home/martinlindner/Data/Geodata/OSM/germany-latest.osm.pbf -d carsharing -U martinlindner -H localhost -S /usr/share/osm2pgsql/default.style -W --prefix germany_osm
 ```
 
-6. Wait about 2 hours 
+6. Wait about 25 hours 
 
 ## Option 2: Shapefile-Import
 

@@ -53,7 +53,7 @@ Note: this is the preferred options, since most of the scripts are based in this
     osm2pgsql --create --slim --cache 1000 --number-processes 2 --hstore --multi-geometry berlin-latest.osm.pbf -d osm -U           postgres -H localhost -S default.style -W --prefix berlin_osm
     ```
 
-6. After import you can change the schema of the tables with following script: [Set_Schema_OSM.sql](PostgreSQL/Set_Schema_OSM.sql)
+6. After import you can change the schema of the tables with following script: [Set_Schema_OSM.sql](PostgreSQL/Set_Schema_OSM.sql) and add a geometry column with the local CRS: [Add_localGeometry_OSM.sql](PostgreSQL/Add_localGeometry_OSM.sql)
 
 Fore more infos about all options click [here](http://www.volkerschatz.com/net/osm/osm2pgsql-usage.html).
 
@@ -94,6 +94,7 @@ Some links for help:
     ```
 
 6. Wait about 25 hours 
+7. After import you can change the schema of the tables with following script: [Set_Schema_OSM.sql](PostgreSQL/Set_Schema_OSM.sql) and add a geometry column with the local CRS: [Add_localGeometry_OSM.sql](PostgreSQL/Add_localGeometry_OSM.sql)
 
 ## Option 2: Shapefile-Import
 

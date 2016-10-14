@@ -83,9 +83,9 @@ Some links for help:
     ```
 
 4. Create new database if required, create new extension 'postgis' and 'hstore'
-In psql: ```CREATE EXTENSION hstore```
+    In psql: ```CREATE EXTENSION hstore```
 
-In Terminal: ```psql -d carsharing -c 'create extension hstore;```
+    In Terminal: ```psql -d carsharing -c 'create extension hstore;```
 
 5. Execute osm2pgsql command (customize parameters)
 

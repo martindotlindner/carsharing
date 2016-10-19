@@ -177,19 +177,39 @@ WHERE amenity LIKE '%university%' OR amenity LIKE '%research_institute%';
 DROP TABLE if exists berlin.osm_poly_parking;
 CREATE TABLE berlin.osm_poly_parking AS
 SELECT amenity, name, geom_25833, ST_Area(geom_25833) as Area FROM berlin.osm_poly
-WHERE amenity LIKE '%parking%';
+WHERE amenity LIKE '%parking%' AND amenity NOT LIKE '%bicycle%';
+
+
+COPY(
+SELECT berlin.berlin_hexagon_1km.gid,
+SUM(ST_Area(ST_Intersection(berlin.osm_poly_parking.geom_25833,berlin.berlin_hexagon_1km.geom))/1000000) AS area,
+count(berlin.osm_poly_parking.*) as count_park
+FROM berlin.berlin_hexagon_1km, berlin.osm_poly_parking
+WHERE ST_Intersects(berlin.osm_poly_parking.geom_25833,berlin.berlin_hexagon_1km.geom) AND ST_IsValid(geom_25833) = 't'
+GROUP BY berlin.berlin_hexagon_1km.gid )
+TO 'C:/Program Files/PostgreSQL/9.5/data/hexagon_parking_area.csv' DELIMITER ';' CSV HEADER;
+
 
 --Parking places
 DROP TABLE if exists berlin.osm_point_parking;
 CREATE TABLE berlin.osm_point_parking AS
-SELECT * FROM berlin.osm_point
-WHERE amenity LIKE '%parking%';
-SELECT * FROM berlin.osm_point_parking;
+SELECT capacity,geom_25833 FROM osm.berlin_osm_point
+WHERE amenity = 'parking';
+
+COPY(
+SELECT berlin.berlin_hexagon_1km.gid, count(berlin.osm_point_parking.*) as count_parking, SUM(berlin.osm_point_parking.capacity::int)
+ FROM berlin.berlin_hexagon_1km, berlin.osm_point_parking
+ WHERE ST_Within(berlin.osm_point_parking.geom_25833,berlin.berlin_hexagon_1km.geom) 
+ GROUP BY berlin.berlin_hexagon_1km.gid)
+TO 'C:/Program Files/PostgreSQL/9.5/data/hexagon_parking.csv' DELIMITER ';' CSV HEADER;
+
 
 -- Parks
 DROP TABLE if exists berlin.osm_poly_park;
 SELECT * INTO berlin.osm_poly_park FROM berlin.osm_poly
 WHERE leisure LIKE 'park' AND landuse LIKE 'recreation_ground';
+
+--C:\Users\Martin\Documents\Workaholic\TUD_Verkehr\Geodaten\Wikipedia
 
 
 COPY(

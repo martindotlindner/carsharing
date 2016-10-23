@@ -15,7 +15,6 @@ CREATE INDEX idx_world_routes_geom ON world.routes USING gist(geom);
 */
 
 --Add point geometry for start
-
 ALTER TABLE world.routes DROP COLUMN if exists geom_start;
 SELECT  AddGeometryColumn(
 	'world',

@@ -56,7 +56,9 @@ To reduce computing time, a reduction of your data is recommended. Furthermore, 
 
 
 # Summarized workflow<a id="Workflow"></a>
-To execute serval files with psql, you can use this command:
+To execute multiple queries in a row you can use several commands:
+
+Within psql:
 
 ```sql
 BEGIN;
@@ -64,6 +66,15 @@ BEGIN;
 \i query2.sql
 COMMIT;
 ```
+
+Within terminal:
+
+```
+cat abc.sql \
+    xyz.sql \
+    | psql -U postgres database_name
+```
+
 
 A workflow for preprocessing data for Berlin would be (you have to run [Import_CSV_SQL_Query.R](R/Import_CSV_SQL_Query.R.R) first)
 
@@ -85,19 +96,21 @@ COMMIT;
 
 A workflow for preprocessing data for Germany would be similar. If you want to add the corresponding city to each trip, you have to [import the operating areas](#Operating_Areas) first.
 
-```sql
-BEGIN;
-\i Import_Routes_World.sql
-\i sql_import.sql
-\i Add_Geometry_World_Routes.sql
-\i Select_Into_Germany_Routes.sql
-\i Remove_Errors_Step1.sql
-\i Add_Geometry_Germany_Routes.sql
-\i Add_City.sql
-\i Calculate_Parameter.sql
-\i Remove_Errors_Step2.sql
-\i Calculate_Sales.sql
-COMMIT;
+```
+cat \
+Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Add_Geometry_World_Routes.sql \
+Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Vacuum_Analzye_World_Routes.sql \
+Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Select_Into_Germany_Routes.sql \
+Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Create_Indexes.sql \
+Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Vacuum_Analzye_Germany_Routes.sql \
+Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Remove_Errors.sql \
+Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Add_Geometry_Germany_Routes.sql \
+Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Vacuum_Analzye_Germany_Routes.sql \
+
+
+
+| psql -U martinlindner carsharing \
+
 ```
 
 Afterwards, outliers should be removed like [described](#Remove_Errors) above.

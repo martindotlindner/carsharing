@@ -24,3 +24,6 @@ WHERE ST_DWithin(germany.routes.geom_start, ST_Transform(ST_GeomFromText('POINT(
 
 UPDATE germany.routes SET city = 'Duesseldorf'
 WHERE ST_DWithin(germany.routes.geom_start, ST_Transform(ST_GeomFromText('POINT(6.782778 51.225556)', 4326),25832), 15000);
+
+DROP INDEX if exists germany.idx_germany_routes_city;
+CREATE INDEX idx_germany_routes_city ON germany.routes(city);

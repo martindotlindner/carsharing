@@ -28,4 +28,4 @@ UPDATE germany.routes SET sales = CASE
 END
 WHERE germany.routes.provider LIKE 'DRIVENOW';
 
-DELETE FROM germany.routes WHERE sales > 999999;
+--DELETE FROM germany.routes WHERE sales > 999999;

@@ -32,11 +32,10 @@ Only necessary for raw CSV files from parsing server:  preprocessing of raw CSV 
 To reduce computing time, a reduction of your data is recommended. Furthermore, you can use a local spatial reference system, which is suitable for multiple PostGIS-queries.
 
 #### Choice 1 - Germany
-1. Import shapefile with boundary of Germany (see [Wiki](https://github.com/martindotlindner/carsharing/wiki/Import-Shapefile-into-a-PostGIS-Database) how to import shapefiles)
-2. Select Routes within Germany [Select_Into_Germany_Routes.sql](PostgreSQL/Select_Into_Germany_Routes.sql)
+Select trips within Germany [Select_Into_Germany_Routes.sql](PostgreSQL/Select_Into_Germany_Routes.sql)
 
 #### Choice 2 - Berlin
-1. Select Routes within Berlin [Select_Into_Berlin_Routes.sql](PostgreSQL/Select_Into_Berlin_Routes.sql)
+Select trips within Berlin [Select_Into_Berlin_Routes.sql](PostgreSQL/Select_Into_Berlin_Routes.sql)
 
 
 # Remove errors and calculate parameters<a id="Calc_Parameters"></a>
@@ -52,8 +51,6 @@ To reduce computing time, a reduction of your data is recommended. Furthermore, 
 ## Impact of free reservations from 0:00 - 6:00 o´clock at weekends on duration of trips
 1. Run the sql script: [Reservation_Effect.sql](PostgreSQL/Reservation_Effect.sql) (adjust the directory)
 2. Import csv-files and create two plots with: [Reservation_Effect.R](R/Reservation_Effect.R)
-
-
 
 # Summarized workflow<a id="Workflow"></a>
 To execute multiple queries in a row you can use several commands:

@@ -15,7 +15,7 @@ Only necessary for raw CSV files from parsing server:  preprocessing of raw CSV 
 ### Copy CSV files into PostgreSQL
 1. Create table in PostgreSQL: [Import_Routes_World.sql](PostgreSQL/Import_Routes_World.sql)
 2. Change security settings of CSV files (right click in file/flolder, *Properties* -> *Security* tab -> click *Add* and add user *Everyone*/*Jeder*
-2. Import all CSV files 
+2. Import all CSV files <a id="Create_Import_Query"></a>
   * if there are multiple files within one directory you can use [Import_CSV_SQL_Query.R](R/Import_CSV_SQL_Query.R)
   * for a single CSV file use a query like this: 
  
@@ -76,12 +76,12 @@ cat abc.sql \
 ```
 
 
-A workflow for preprocessing data for Germany.
+A workflow for preprocessing data for Germany. You have to create a script to import all csv files first (see section [Import data to PostgreSQL](#Create_Import_Query))
 
 ```
 cat \
 Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Add_Geometry_World_Routes.sql \
-/home/martinlindner/Data/Postgres/Import/carsharing/utf8/sql_import_bsp.sql \
+path/sql_import.sql \
 Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Vacuum_Analzye_World_Routes.sql \
 Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Select_Into_Germany_Routes.sql \
 Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Create_Indexes.sql \

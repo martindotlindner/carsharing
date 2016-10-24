@@ -1,4 +1,5 @@
-﻿SET maintenance_work_mem = 2097151;
+
+SET maintenance_work_mem = 2097151;
  
 --for germany
 --DROP INDEX if exists germany.idx_germany_routes_id;

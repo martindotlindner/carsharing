@@ -41,7 +41,7 @@ To reduce computing time, a reduction of your data is recommended. Furthermore, 
 
 # Remove errors and calculate parameters<a id="Calc_Parameters"></a>
 1. Create indexes on following columns: timestampstart, timestampend, provider,  to increase performance: [Create_Indexes.sql](PostgreSQL/Create_Indexes.sql) Performe 'Vacuum Analzye' afterwards!
-2. Remove errors - Part I: Remove 'Umrüsterfahrten', all trips from 'Multicity' and coordinates < 1 and > 90 (negative coordinates and coordinates above 90 degree leads to errors when calculation geometry with local coordinate reference system) [Remove_Errors_Step1.sql](PostgreSQL/Remove_Errors.sql)
+2. Remove errors - Part I: Remove 'Umrüsterfahrten', all trips from 'Multicity' and coordinates < 1 and > 90 (negative coordinates and coordinates above 90 degree leads to errors when calculation geometry with local coordinate reference system) [Remove_Errors_Step1.sql](PostgreSQL/Remove_Errors_Step1.sql)
 3. Add and calculate geometry columns for trips within Berlin with SRID 25833 [Add_Geometry_Berlin_Routes.sql](PostgreSQL/Add_Geometry_Berlin_Routes.sql)
 4. Calculate basic parameters like duration of trip, distance, mean speed, e.g. [Calculate_Parameter.sql](PostgreSQL/Calculate_Parameter.sql)
 5. Calculate sales based on the pricing of the providers: [Calculate_Sales.sql](https://github.com/martindotlindner/carsharing/blob/master/Analysis/PostgreSQL/Sales_per_Vehicles.sql)
@@ -76,25 +76,7 @@ cat abc.sql \
 ```
 
 
-A workflow for preprocessing data for Berlin would be (you have to run [Import_CSV_SQL_Query.R](R/Import_CSV_SQL_Query.R.R) first)
-
-```sql
-BEGIN;
-\i Import_Routes_World.sql
-\i sql_import.sql
-\i Add_Geometry_World_Routes.sql
-\i Create_Indexes.sql
-\i Vacuum_Analzye.sql
-\i Select_Into_Berlin_Routes.sql
-\i Remove_Errors_Step1.sql
-\i Add_Geometry_Berlin_Routes.sql
-\i Calculate_Parameter.sql
-\i Remove_Errors_Step2.sql
-\i Calculate_Sales.sql
-COMMIT;
-```
-
-A workflow for preprocessing data for Germany would be similar. If you want to add the corresponding city to each trip, you have to [import the operating areas](#Operating_Areas) first.
+A workflow for preprocessing data for Germany.
 
 ```
 cat \
@@ -103,12 +85,14 @@ Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Vacuum_Analzy
 Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Select_Into_Germany_Routes.sql \
 Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Create_Indexes.sql \
 Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Vacuum_Analzye_Germany_Routes.sql \
-Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Remove_Errors.sql \
+Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Remove_Errors_Step1.sql \
 Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Add_Geometry_Germany_Routes.sql \
+Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Calculate_Parameter.sql \
 Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Vacuum_Analzye_Germany_Routes.sql \
-
-
-
+Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Remove_Errors_Step2.sql \
+Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Calculate_Sales.sql \
+Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Add_City.sql \
+Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Vacuum_Analzye_Germany_Routes.sql \
 | psql -U martinlindner carsharing \
 
 ```

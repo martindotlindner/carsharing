@@ -16,6 +16,9 @@ WHERE ST_DWithin(germany.routes.geom_start, ST_Transform(ST_GeomFromText('POINT(
 UPDATE germany.routes SET city = 'Frankfurt'
 WHERE ST_DWithin(germany.routes.geom_start, ST_Transform(ST_GeomFromText('POINT(8.682222 50.110556)', 4326),25832), 30000);
 
+UPDATE germany.routes SET city = 'Stuttgart'
+WHERE ST_DWithin(germany.routes.geom_start, ST_Transform(ST_GeomFromText('POINT(9.182778 48.775556)', 4326),25832), 30000);
+
 UPDATE germany.routes SET city = 'Koeln'
 WHERE ST_DWithin(germany.routes.geom_start, ST_Transform(ST_GeomFromText('POINT(6.956944 50.938056)', 4326),25832), 15000);
 

@@ -10,7 +10,7 @@ ALTER TABLE germany.routes ADD COLUMN duration_min double precision;
 UPDATE germany.routes SET duration_min = EXTRACT(epoch FROM (TIMESTAMPEND - TIMESTAMPSTART))/60 ;
 
 -- Create index
-DROP INDEX if exits idx_germany_routes_duration_min;
+DROP INDEX if exists idx_germany_routes_duration_min;
 CREATE INDEX idx_germany_routes_duration_min ON germany.routes(duration_min);
 
 

@@ -81,6 +81,7 @@ A workflow for preprocessing data for Germany.
 ```
 cat \
 Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Add_Geometry_World_Routes.sql \
+/home/martinlindner/Data/Postgres/Import/carsharing/utf8/sql_import_bsp.sql \
 Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Vacuum_Analzye_World_Routes.sql \
 Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Select_Into_Germany_Routes.sql \
 Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Create_Indexes.sql \
@@ -93,7 +94,7 @@ Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Remove_Errors
 Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Calculate_Sales.sql \
 Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Add_City.sql \
 Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Vacuum_Analzye_Germany_Routes.sql \
-| psql -U martinlindner carsharing \
+| psql -U martinlindner carsharing 
 
 ```
 

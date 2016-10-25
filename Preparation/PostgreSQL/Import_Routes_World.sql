@@ -1,3 +1,4 @@
+--Create empty table for importing carsharing csv files
 CREATE SCHEMA IF NOT EXISTS world; -- create an empty schema
 SET datestyle TO German;  -- depending on installation properties, date format has to be changed to german style
 DROP TABLE if exists world.routes;  

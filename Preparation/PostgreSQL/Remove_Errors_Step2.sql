@@ -2,4 +2,4 @@
 DELETE FROM germany.routes WHERE duration_min < 4;
 
 -- Removing all trips with mean speed > 100km/h
-DELETE FROM germany.routes WHERE mean_speed > 100 ;
+-- DELETE FROM germany.routes WHERE mean_speed > 100 ;

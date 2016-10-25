@@ -1,10 +1,10 @@
-﻿-- addional airport fees are not considered yet!
+-- addional airport fees are not considered yet!
 -- Tegel: ST_GeomFromText('POINT(13.287711 52.559686)', 4326) 
 -- Schönefeld: ST_GeomFromText('POINT(13.52 52.388333)', 4326) 
 
 
-
-ALTER TABLE germany.routes ADD COLUMN sales double precision;
+ALTER TABLE germany.routes DROP COLUMN if exists sales ;
+ALTER TABLE germany.routes ADD COLUMN sales double precision ;
 --calculate costs for Car2Go
 UPDATE germany.routes SET sales = CASE
    WHEN duration_min < 60 THEN duration_min*0.29  

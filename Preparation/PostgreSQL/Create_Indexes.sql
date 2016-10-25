@@ -1,4 +1,4 @@
-
+-- Set used memory for maintenance to 2GB
 SET maintenance_work_mem = 2097151;
  
 --for germany

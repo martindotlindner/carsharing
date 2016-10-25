@@ -1,4 +1,4 @@
-﻿-- For Berlin
+-- For Berlin
 /*
 -- Drop all trips from Multicity
 DELETE FROM berlin.routes

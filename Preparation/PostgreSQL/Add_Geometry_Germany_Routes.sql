@@ -1,3 +1,4 @@
+--Add geometry for lines, start and end point with CRS ETRS89 / UTM zone 32N 
 ALTER TABLE germany.routes DROP COLUMN if exists geom;
 SELECT  AddGeometryColumn(
 	'germany',

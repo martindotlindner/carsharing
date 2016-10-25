@@ -1,1 +1,1 @@
-﻿VACUUM ANALYZE germany.routes;
+VACUUM ANALYZE germany.routes;

@@ -1,4 +1,4 @@
-﻿-- Add column with city based on coordinates of cities from Wikipedia
+-- Add column with city based on coordinates of cities from Wikipedia
 -- set correct SRID for xy of cities(same like geom_start)
 
 ALTER TABLE germany.routes DROP COLUMN if exists city;

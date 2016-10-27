@@ -43,4 +43,4 @@ Further details:
 #  Regression analysis of operating area and structural data<a id="Regression"></a>
 ## Create hexagon with sales per day
 1. Make shure that you have calculated sales for each trip (see [Calculate_Sales.sql](https://github.com/martindotlindner/carsharing/blob/master/Preparation/PostgreSQL/Calculate_Sales.sql))
-2. Import kml-file with operating area (see ( [Add_Operating_Area_kml_with_ogr2ogr.txt](carsharing/Data/PostgreSQL/Add_Operating_Area_kml_with_ogr2ogr.txt))
+2. Import kml-file with operating area (see ( [Add_Operating_Area_kml_with_ogr2ogr.txt](https://github.com/martindotlindner/carsharing/blob/master/Data/PostgreSQL/Add_Operating_Area_kml_with_ogr2ogr.txt))

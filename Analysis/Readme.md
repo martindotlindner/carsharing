@@ -1,7 +1,7 @@
 # Table of Contents
 
 * [Impact of transformation of the operating area](#Changes)
-* [Import Data to PostgreSQL](#Import_Data)  
+* [Regression analysis of operating area and structural data](#Regression)
 
 
 
@@ -38,4 +38,9 @@ Further details:
  1. [Import shapefile](https://github.com/martindotlindner/carsharing/wiki/Import-OSM-Data-into-a-PostGIS-Database) with cycleways/sidewalks (from OSM)
  2. [Create](https://github.com/martindotlindner/carsharing/wiki/Create-Hexagons-with-QGIS) and import hexagons
  3. Calculate length of cycleways/sidewalks for each hexagon: [POI_Density_Hexagon.sql](PostgreSQL/Lenght_Lines_Hexagon.sql)
-
+ 
+ 
+#  Regression analysis of operating area and structural data<a id="Regression"></a>
+## Create hexagon with sales per day
+1. Make shure that you have calculated sales for each trip (see [Calculate_Sales.sql](https://github.com/martindotlindner/carsharing/blob/master/Preparation/PostgreSQL/Calculate_Sales.sql))
+2. Import kml-file with operating area (see ( [Add_Operating_Area_kml_with_ogr2ogr.txt](carsharing/Data/PostgreSQL/Add_Operating_Area_kml_with_ogr2ogr.txt))

@@ -1,3 +1,4 @@
+
 library(RPostgreSQL)
 
 
@@ -5,17 +6,19 @@ library(RPostgreSQL)
 drv <- dbDriver("PostgreSQL")
 
 # Connection settings
-con <- dbConnect(drv, dbname="carsharing",host="localhost",port=5433,user="postgres",password="CS4ever" )
+con <- dbConnect(drv, dbname="carsharing",host="localhost",port=5432,user="postgres",password="CS4ever" )
 #readOGR("PG:dbname=gps_tracking_db host=localhost", layer = "main.gps_data_animals")
 
 #Test, if table exists 
 dbExistsTable(con, c("berlin", "routes"))
 
+#Get all OSM keys (correspont to column names)
 q = "SELECT * FROM information_schema.columns WHERE table_schema = 'berlin' AND table_name = 'osm_point' AND data_type = 'character varying';"
 rs = dbSendQuery(con,q)
 osm_info = fetch(rs,n=-1)
 osm_keys <- osm_info$column_name
 
+#Count records of each value (e.g. bar, cafe, pub, restaurant) for every key (e.g. amenity)
 osm_tables <- list()
 for (i in 1:length(osm_keys)){
 #for (i in 1:40){
@@ -27,9 +30,14 @@ colnames(osm_table) <- c("count","value", "key")
 osm_tables[[i]] = osm_table
 }
 
+#Convert list into dataframe
 osm_key_value <- do.call(rbind.data.frame, osm_tables)
+
+#Remove all records with NA
 osm_key_value <- na.omit(osm_key_value)
-osm_key_value_500 <- subset(osm_key_value, count > 2)
+
+#Filter all records with count > 2 
+osm_key_value_min2 <- subset(osm_key_value, count > 2)
 
 Sales <- read.table("C:/Users/Martin/Documents/Workaholic/TUD_Verkehr/R/Data/sales_starts_hexagon.csv",header=FALSE, dec=".",sep = ",")
 colnames(Sales) <- c("ID_Hexagon", "geom", "Count_Sales")
@@ -37,7 +45,7 @@ colnames(Sales) <- c("ID_Hexagon", "geom", "Count_Sales")
 correlation_df <- data.frame(spearman = NA, pearson = NA, key_value = NA, count_poi = NA)
 schema = "berlin"
 table = "osm_point"
-for (i in 1:nrow(osm_key_value_500)){
+for (i in 1:nrow(osm_key_value_min2)){
 
 key <- osm_key_value_500$key[i]
 value <- osm_key_value_500$value[i]

@@ -73,7 +73,10 @@ cat abc.sql \
 ```
 
 
-A workflow for preprocessing data for Germany. You have to create a script to import all csv files first (see section [Import data to PostgreSQL](#Create_Import_Query))
+A workflow for preprocessing data for Germany. You have to create a script to import all csv files first (see section [Import data to PostgreSQL](#Create_Import_Query)). Afterwards, outliers should be removed like [described](#Remove_Errors) above.
+
+NB: Github inserts sometimes this sign '﻿', called byte order marks (BOM) at the beginning of a document. They will produce an error in PostgreSQL!
+
 
 ```
 cat \
@@ -95,4 +98,4 @@ Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Vacuum_Analzy
 
 ```
 
-Afterwards, outliers should be removed like [described](#Remove_Errors) above.
+

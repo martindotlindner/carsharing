@@ -50,7 +50,13 @@ CREATE INDEX idx_germany_osm_polygon_geom ON osm.germany_osm_polygon USING gist(
 ALTER TABLE osm.germany_osm_point RENAME COLUMN "addr:housename" TO housename;
 ALTER TABLE osm.germany_osm_point RENAME COLUMN "addr:housenumber" TO housenumber;
 ALTER TABLE osm.germany_osm_point RENAME COLUMN "addr:interpolation" TO interpolation;
-ALTER TABLE osm.germany_osm_point RENAME COLUMN "generator:source" TO generator;
-ALTER TABLE osm.germany_osm_point RENAME COLUMN "tower:type" TO tower;
+ALTER TABLE osm.germany_osm_point RENAME COLUMN "generator:source" TO source;
+ALTER TABLE osm.germany_osm_point RENAME COLUMN "tower:type" TO towertype;
 ALTER TABLE osm.germany_osm_point RENAME COLUMN "natural" TO natural_type;
 
+ALTER TABLE osm.germany_osm_polygon RENAME COLUMN "addr:housename" TO housename;
+ALTER TABLE osm.germany_osm_polygon RENAME COLUMN "addr:housenumber" TO housenumber;
+ALTER TABLE osm.germany_osm_polygon RENAME COLUMN "addr:interpolation" TO interpolation;
+ALTER TABLE osm.germany_osm_polygon RENAME COLUMN "generator:source" TO source;
+ALTER TABLE osm.germany_osm_polygon RENAME COLUMN "tower:type" TO towertype;
+ALTER TABLE osm.germany_osm_polygon RENAME COLUMN "natural" TO natural_type;

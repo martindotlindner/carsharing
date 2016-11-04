@@ -40,17 +40,17 @@ park <-  read.table("hexagon_park.csv",sep = ";",header = TRUE)
 colnames(park) <- c("gid","park_area","count_park")
 
 #Insert Parking spaces (points) from OSM per hexagon
-parking_point <-  read.table("hexagon_parking.csv",sep = ";",header = TRUE)
-colnames(parking_point) <- c("gid","count_parking_spaces","capacity_parking")
+#parking_point <-  read.table("hexagon_parking.csv",sep = ";",header = TRUE)
+#colnames(parking_point) <- c("gid","count_parking_spaces","capacity_parking")
 
 #Insert Parking spaces (points) from OSM per hexagon
-parking_area <-  read.table("hexagon_parking_area.csv",sep = ";",header = TRUE)
-colnames(parking_area) <- c("gid","parking_area","count_parking_area")
-parking_area$parking_area <- parking_area$parking_area*1000000
+#parking_area <-  read.table("hexagon_parking_area.csv",sep = ";",header = TRUE)
+#colnames(parking_area) <- c("gid","parking_area","count_parking_area")
+#parking_area$parking_area <- parking_area$parking_area*1000000
 
 
 #Merging all criteria
-hex_merge <- join_all(list(sales_order,stops, restaurants, aerodroms,ikea,pop_density,mall,park,parking_point,parking_area), by = c("gid"), type = 'left')
+hex_merge <- join_all(list(sales_order,stops, restaurants, aerodroms,ikea,pop_density,mall,park), by = c("gid"), type = 'left')
 hex_merge[is.na(hex_merge)] <- 0
 
 

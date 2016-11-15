@@ -94,7 +94,7 @@ Some links for help:
     ```
 
 6. Wait about 25 hours 
-7. After import you can change the schema of the tables with following script: [Set_Schema_OSM.sql](PostgreSQL/Set_Schema_OSM.sql) and add a geometry column with the local CRS: [Add_localGeometry_OSM.sql](PostgreSQL/Add_localGeometry_OSM.sql)
+7. After import you can change the schema of the tables with following script: [Set_Schema_OSM.sql](PostgreSQL/Set_Schema_OSM.sql) and add a geometry column with the local CRS: [Add_localGeometry_OSM.sql](PostgreSQL/Add_localGeometryGermany_OSM.sql)
 
 ## Option 2: Shapefile-Import
 

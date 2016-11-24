@@ -1,0 +1,2 @@
+Copy (SELECT sales FROM Berlin.routes)
+ TO 'C:/Program Files/PostgreSQL/9.5/data/B_Sales.csv' DELIMITER ';' CSV HEADER;

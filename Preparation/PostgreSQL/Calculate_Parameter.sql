@@ -1,11 +1,6 @@
 -- Calculate important parameters:
-
---Duration of booking (as interval):
---ALTER TABLE germany.routes ADD COLUMN duration interval;
---UPDATE germany.routes SET duration =  TIMESTAMPEND - TIMESTAMPSTART ;
-
     
---Duration in hours:
+--Duration in minutes:
 ALTER TABLE germany.routes ADD COLUMN duration_min double precision;
 UPDATE germany.routes SET duration_min = EXTRACT(epoch FROM (TIMESTAMPEND - TIMESTAMPSTART))/60 ;
 

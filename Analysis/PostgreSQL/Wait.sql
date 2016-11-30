@@ -16,6 +16,3 @@ UPDATE berlin.routes
 SET    wait = berlin.standzeit.timetonext
 FROM   berlin.standzeit
 WHERE  berlin.routes.id = berlin.standzeit.id;
-
-
-CREATE INDEX idx_berlin_routes_id ON berlin.routes(id);

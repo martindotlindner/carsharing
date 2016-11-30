@@ -1,0 +1,6 @@
+COPY(
+SELECT  date_trunc('day',TIMESTAMPSTART) AS Date, COUNT(DISTINCT vehicleid) AS Vehicles, SUM(timetonext)
+FROM Berlin.standzeit
+-- WHERE TIMESTAMPSTART < '2015-07-01'::timestamp AND TIMESTAMPSTART > '2015-05-01'::timestamp
+GROUP BY Date)
+TO 'C:/Program Files/PostgreSQL/9.5/data/duration2_Vehicles_City.csv' DELIMITER ';' CSV HEADER;

@@ -1,0 +1,4 @@
+COPY(
+SELECT timestampstart FROM Berlin.routes
+GROUP BY timestampstart)
+TO 'C:/Program Files/PostgreSQL/9.5/data/timestampstart_Vehicles_City.csv' DELIMITER ';' CSV HEADER;

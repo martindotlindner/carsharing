@@ -94,7 +94,7 @@ Some links for help:
     ```
 
 6. Wait about 25 hours 
-7. After import you can change the schema of the tables with following script: [Set_Schema_OSM.sql](PostgreSQL/Set_Schema_OSM.sql) and add a geometry column with the local CRS: [Add_localGeometry_OSM.sql](PostgreSQL/Add_localGeometry_OSM.sql)
+7. After import you can change the schema of the tables with following script: [Set_Schema_OSM.sql](PostgreSQL/Set_Schema_OSM.sql) and add a geometry column with the local CRS: [Add_localGeometry_OSM.sql](PostgreSQL/Add_localGeometryGermany_OSM.sql)
 
 ## Option 2: Shapefile-Import
 
@@ -125,7 +125,7 @@ Osmosis provides also a good option to import osm-files. See following [link](ht
 ## Import Operating Areas
 1. Download operating areas as kml-files from Car2Go: [operatingarea_car2go.R](Data/R/operatingarea_car2go.R) You need a API-KEY for this (see https://github.com/car2go/openAPI)
 2. Import kml-files to PostgreSQL-Database with ogr2ogr: [Add_Operating_Area_kml_with_ogr2ogr.txt](PostgreSQL/Add_Operating_Area_kml_with_ogr2ogr.txt), Change your settings (EPSG-Code, port, dbname, password and filenames)!
-3. Change geometry from lines to polygons and convert lines to polygons [OperatingArea_LocalGeom_Line_to_Polygon.sql](PostgreSQL/OperatingArea_LocalGeom_Line_to_Polygon)
+3. Change geometry from lines to polygons and convert lines to polygons [OperatingArea_LocalGeom_Line_to_Polygon.sql](PostgreSQL/OperatingArea_LocalGeom_Line_to_Polygon.sql)
 
 
 

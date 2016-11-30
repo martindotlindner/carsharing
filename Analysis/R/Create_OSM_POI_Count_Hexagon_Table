@@ -1,0 +1,40 @@
+library(RPostgreSQL)
+
+
+# Establish connection to PoststgreSQL using RPostgreSQL
+drv <- dbDriver("PostgreSQL")
+
+# Connection settings
+con <- dbConnect(drv, dbname="carsharing",host="localhost",port=5432,user="martinlindner",password="CS4ever" )
+#readOGR("PG:dbname=gps_tracking_db host=localhost", layer = "main.gps_data_animals")
+
+#Test, if table exists 
+dbExistsTable(con, c("world", "routes"))
+
+#Create columns with counts of POIs for each OSM key 
+amenity_keys <- subset(osm_key_value, osm_key_value$key == 'amenity')
+amenity_keys <- amenity_keys$value[2:100]
+
+for (i in 1:length(amenity_keys)){
+   q = paste0("--Create table with number of cafes per hexagon
+               SELECT berlin.hexagon_1km_car2go.gid, count(osm.germany_osm_point.*) as count_", amenity_keys[i], "
+               INTO berlin.hexagon_car2go_poi
+               FROM berlin.hexagon_1km_car2go, osm.germany_osm_point
+               WHERE ST_Within(osm.germany_osm_point.geom_25832, berlin.hexagon_1km_car2go.geom) AND osm.germany_osm_point.amenity ='",amenity_keys[i],"'
+               GROUP BY berlin.hexagon_1km_car2go.gid;
+               
+               
+               --Add column with number of cafes (from OSM)
+               ALTER TABLE berlin.hexagon_1km_car2go DROP COLUMN if exists count_",amenity_keys[i]," ;
+               ALTER TABLE berlin.hexagon_1km_car2go ADD COLUMN count_",amenity_keys[i]," integer;
+               
+               UPDATE berlin.hexagon_1km_car2go SET count_", amenity_keys[i], " = berlin.hexagon_car2go_poi.count_", amenity_keys[i], " FROM berlin.hexagon_car2go_poi
+               WHERE berlin.hexagon_1km_car2go.gid = berlin.hexagon_car2go_poi.gid;
+               DROP TABLE if exists berlin.hexagon_car2go_poi ;")
+  
+  dbSendQuery(con,q)
+}
+
+dbDisconnect(con)
+
+

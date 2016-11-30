@@ -1,0 +1,2 @@
+Copy (SELECT Distance_m FROM Berlin.routes)
+ TO 'C:/Program Files/PostgreSQL/9.5/data/B_Distance_m.csv' DELIMITER ';' CSV HEADER;

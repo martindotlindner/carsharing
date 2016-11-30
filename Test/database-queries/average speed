@@ -1,0 +1,1 @@
+SELECT AVG(mean_speed) FROM Berlin.routes

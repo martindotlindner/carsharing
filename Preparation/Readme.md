@@ -85,15 +85,15 @@ path/sql_import.sql \
 Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Vacuum_Analzye_World_Routes.sql \
 Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Select_Into_Germany_Routes.sql \
 Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Create_Indexes.sql \
-Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Vacuum_Analzye_Germany_Routes.sql \
+Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Vacuum_Analyze_Germany_Routes.sql \
 Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Remove_Errors_Step1.sql \
 Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Add_Geometry_Germany_Routes.sql \
 Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Calculate_Parameter.sql \
-Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Vacuum_Analzye_Germany_Routes.sql \
+Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Vacuum_Analyze_Germany_Routes.sql \
 Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Remove_Errors_Step2.sql \
 Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Calculate_Sales.sql \
 Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Add_City.sql \
-Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Vacuum_Analzye_Germany_Routes.sql \
+Postgres/Querys/martindotlindner/carsharing/Preparation/PostgreSQL/Vacuum_Analyze_Germany_Routes.sql \
 | psql -U martinlindner carsharing 
 
 ```

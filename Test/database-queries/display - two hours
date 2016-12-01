@@ -1,0 +1,1 @@
+SELECT * FROM berlin.routes WHERE TIMESTAMPSTART < '2016-11-01 10:00:00'::timestamp AND TIMESTAMPSTART > '2013-06-01 08:00:00'::timestamp Limit 10

@@ -5,4 +5,5 @@ timestampstart) AS minute
 FROM Berlin.routes
 GROUP BY dow, hour, minute
 ORDER BY dow, hour, minute)
+
 TO 'C:/Program Files/PostgreSQL/9.5/data/weekly.csv' DELIMITER ';' CSV HEADER;

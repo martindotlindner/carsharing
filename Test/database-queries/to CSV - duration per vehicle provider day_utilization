@@ -2,4 +2,5 @@ COPY(
 SELECT provider, date_trunc('day',TIMESTAMPSTART) AS Date, COUNT(DISTINCT vehicleid) AS Vehicles, Count(*)
 FROM berlin.routes 
 GROUP BY provider, Date)
+
 TO 'C:/Program Files/PostgreSQL/9.5/data/duration3_Vehicles_City.csv' DELIMITER ';' CSV HEADER;

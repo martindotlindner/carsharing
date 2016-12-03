@@ -1,0 +1,2 @@
+Copy (SELECT id FROM world2016.routes)
+TO 'C:/Program Files/PostgreSQL/9.5/data/world 2016 number of lines.csv' DELIMITER ';' CSV HEADER;

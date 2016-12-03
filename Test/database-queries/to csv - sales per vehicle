@@ -1,6 +1,6 @@
 COPY(
 SELECT provider, date_trunc('day',TIMESTAMPSTART) AS Date, COUNT(DISTINCT vehicleid) AS Vehicles, SUM(sales)
-FROM germany.routes 
+FROM Berlin2016.routes 
 -- WHERE TIMESTAMPSTART < '2015-07-01'::timestamp AND TIMESTAMPSTART > '2015-05-01'::timestamp
-GROUP BY provider, city, Date)
-TO 'C:/Program Files/PostgreSQL/9.5/data/Sales_Vehicles_City.csv' DELIMITER ';' CSV HEADER;
+GROUP BY provider, Date)
+TO 'C:/Program Files/PostgreSQL/9.5/data/2016/Sales_Vehicles_Berlin.csv' DELIMITER ';' CSV HEADER;

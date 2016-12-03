@@ -1,0 +1,19 @@
+COPY(
+SELECT provider, date_trunc('day',TIMESTAMPSTART) AS Date, COUNT(DISTINCT vehicleid) AS Vehicles, Count(*)
+FROM berlin2016.routes 
+GROUP BY provider, Date)
+TO 'C:/Program Files/PostgreSQL/9.5/data/2016/Auslastung_Berlin.csv' DELIMITER ';' CSV HEADER;
+
+SELECT * FROM berlin2016.routes LIMIT 100;
+
+--Distance in meters (rounded to two decimal places, column 'geom' have to be LINESTRING
+ALTER TABLE Berlin2016.routes ADD COLUMN distance_m3 double precision;
+UPDATE Berlin2016.routes SET distance_m = ROUND(ST_Length(ST_Transform(geom,25833))::numeric,2) ;
+
+SELECT  ROUND(ST_Length(ST_Transform(geom,25833))::numeric,2) FROm berlin2016.routes LIMIT 10;
+
+SELECT provider, date_trunc('day',TIMESTAMPSTART) AS Date, vehicleid, SUM(duration_min)/60 AS sum_fahrtzeit, sum(wait)
+FROM berlin2016.routes 
+GROUP BY provider, Date, vehicleid;
+
+SELECT count(*), provider, date_trunc('day', TIMESTAMPSTART) AS Date FROM berlin.routes 

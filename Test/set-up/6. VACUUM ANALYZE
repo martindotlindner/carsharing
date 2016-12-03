@@ -1,0 +1,3 @@
+
+VACUUM ANALYZE Berlin2016.routes; 
+VACUUM ANALYZE World2016.routes;

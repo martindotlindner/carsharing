@@ -1,6 +1,6 @@
 ALTER TABLE world2016.routes DROP COLUMN if exists geom;
 SELECT  AddGeometryColumn(
-	'world',
+	'world2016',
 	'routes',
 	'geom',
 	4326,
@@ -14,7 +14,7 @@ CREATE INDEX idx_world2016_routes_geom ON world2016.routes USING gist(geom);
 --Add point geometry for start
 ALTER TABLE world2016.routes DROP COLUMN if exists geom_start;
 SELECT  AddGeometryColumn(
-	'world',
+	'world2016',
 	'routes',
 	'geom_start',
 	4326,

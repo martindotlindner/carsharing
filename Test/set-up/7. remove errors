@@ -1,0 +1,11 @@
+
+
+-- Drop all trips from Multicity
+DELETE FROM berlin2016.routes
+WHERE provider = 'MULTICITY';
+-- Drop 'Umrüsterfahrten'
+DELETE FROM berlin2016.routes
+WHERE streetstart = 'Umrüster DE' OR streetend = 'Umrüster DE' ;
+DELETE FROM berlin2016.routes
+WHERE latitudestart < 1 OR longitudestart < 1 OR latitudeend < 1 OR longitudeend < 1 OR
+latitudestart > 90 OR longitudestart > 90 OR latitudeend > 90 OR longitudeend > 90;

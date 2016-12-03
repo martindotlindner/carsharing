@@ -1,0 +1,16 @@
+DROP TABLE if exists berlin2016.standzeit;
+
+-- Zeitdifferenz zw. Stop aus Fahrt1 und Start aus Fahrt 2 
+SELECT id, vehicleid, timestampstart, LEAD (timestampstart) OVER (partition by vehicleid ORDER BY vehicleid, timestampstart) -
+           timestampend AS timetonext INTO berlin2016.standzeit
+		   FROM berlin2016.routes;
+		   
+CREATE INDEX idx_berlin2016_standzeit_id ON berlin2016.standzeit(id);
+
+ALTER TABLE berlin2016.routes DROP COLUMN if exists wait;
+ALTER TABLE berlin2016.routes ADD COLUMN wait interval;
+
+UPDATE berlin2016.routes
+SET    wait = berlin2016.standzeit.timetonext
+FROM   berlin2016.standzeit
+WHERE berlin2016.routes.id = berlin2016.standzeit.id;

@@ -1,0 +1,27 @@
+ALTER TABLE world2016.routes DROP COLUMN if exists geom;
+SELECT  AddGeometryColumn(
+	'world',
+	'routes',
+	'geom',
+	4326,
+	'LINESTRING'
+	,2);
+UPDATE world2016.routes SET geom = ST_SetSRID(ST_MakeLine(ST_Point(longitudestart, latitudestart), ST_Point(longitudeend, latitudeend)), 4326);
+DROP INDEX if exists idx_world2016_routes_geom;
+CREATE INDEX idx_world2016_routes_geom ON world2016.routes USING gist(geom);
+
+
+--Add point geometry for start
+ALTER TABLE world2016.routes DROP COLUMN if exists geom_start;
+SELECT  AddGeometryColumn(
+	'world',
+	'routes',
+	'geom_start',
+	4326,
+	'POINT'
+	,2);
+
+UPDATE world2016.routes SET geom_start = ST_SetSRID(ST_Point(longitudestart, latitudestart), 4326);
+
+DROP INDEX if exists idx_world2016_routes_geom_start;
+CREATE INDEX idx_world2016_routes_geom_start ON world2016.routes USING gist(geom_start);

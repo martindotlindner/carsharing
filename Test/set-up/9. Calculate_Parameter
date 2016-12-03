@@ -11,6 +11,8 @@ CREATE INDEX idx_Berlin2016_routes_duration_min ON Berlin2016.routes(duration_mi
 ALTER TABLE Berlin2016.routes ADD COLUMN distance_m double precision;
 UPDATE Berlin2016.routes SET distance_m = ROUND(ST_Length(geom)::numeric,2) ;
 
+ALTER TABLE Berlin2016.routes ADD COLUMN distance_m3 double precision;
+UPDATE Berlin2016.routes SET distance_m = ROUND(ST_Length(ST_Transform(geom,25833))::numeric,2) ;
 
 --Mean speed in km/h
 ALTER TABLE Berlin2016.routes ADD COLUMN mean_speed double precision;

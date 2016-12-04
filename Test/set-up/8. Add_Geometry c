@@ -1,0 +1,35 @@
+ALTER TABLE calgary2016.routes DROP COLUMN if exists geom_start;
+SELECT  AddGeometryColumn(
+	'calgary2016',
+	'routes',
+	'geom_start',
+	3402,
+	'POINT'
+	,2);
+
+UPDATE calgary2016.routes SET geom_start = ST_Transform(ST_SetSRID(ST_Point(longitudestart, latitudestart), 4326), 3402);
+
+
+ALTER TABLE calgary2016.routes DROP COLUMN if exists geom_end;
+SELECT  AddGeometryColumn(
+	'calgary2016',
+	'routes',
+	'geom_end',
+	3402,
+	'POINT'
+	,2);
+
+UPDATE calgary2016.routes SET geom_end = ST_Transform(ST_SetSRID(ST_Point(longitudestart, latitudestart), 4326), 3402);
+
+
+
+DROP INDEX if exists idx_Calgary2016_routes_geom;
+CREATE INDEX idx_Calgary2016_routes_geom ON Calgary2016.routes USING gist(geom);
+
+
+DROP INDEX if exists idx_Calgary2016_routes_geom_start;
+CREATE INDEX idx_Calgary2016_routes_geom_start ON Calgary2016.routes USING gist(geom_start);
+
+
+DROP INDEX if exists idx_Calgary2016_routes_geom_end;
+CREATE INDEX idx_berlin_routes_geom_end ON berlin.routes USING gist(geom_end);

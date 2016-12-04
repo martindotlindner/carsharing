@@ -14,3 +14,25 @@ UPDATE berlin2016.routes
 SET    wait = berlin2016.standzeit.timetonext
 FROM   berlin2016.standzeit
 WHERE berlin2016.routes.id = berlin2016.standzeit.id;
+
+
+
+
+
+
+DROP TABLE if exists Calgary2016.standzeit;
+
+-- Zeitdifferenz zw. Stop aus Fahrt1 und Start aus Fahrt 2 
+SELECT id, vehicleid, timestampstart, LEAD (timestampstart) OVER (partition by vehicleid ORDER BY vehicleid, timestampstart) -
+           timestampend AS timetonext INTO Calgary2016.standzeit
+		   FROM calgary2016.routes;
+		   
+CREATE INDEX idx_calgary2016_standzeit_id ON calgary2016.standzeit(id);
+
+ALTER TABLE calgary2016.routes DROP COLUMN if exists wait;
+ALTER TABLE calgary2016.routes ADD COLUMN wait interval;
+
+UPDATE Calgary2016.routes
+SET    wait = calgary2016.standzeit.timetonext
+FROM   calgary2016.standzeit
+WHERE calgary2016.routes.id = Calgary2016.standzeit.id;

@@ -1,0 +1,17 @@
+ALTER TABLE calgary2016.routes DROP COLUMN if exists sales ;
+ALTER TABLE calgary2016.routes ADD COLUMN sales double precision ;
+--calculate costs for Car2Go
+UPDATE calgary2016.routes SET sales = CASE
+   WHEN duration_min < 60 THEN duration_min*0.51 
+   WHEN duration_min >= 60 THEN duration_min*0.26 
+   ELSE duration_min*9999999 
+END
+WHERE Calgary2016.routes.provider LIKE 'CAR2GO';
+
+
+COPY(
+SELECT provider, date_trunc('day',TIMESTAMPSTART) AS Date, COUNT(DISTINCT vehicleid) AS Vehicles, SUM(sales)
+FROM Calgary2016.routes 
+-- WHERE TIMESTAMPSTART < '2015-07-01'::timestamp AND TIMESTAMPSTART > '2015-05-01'::timestamp
+GROUP BY provider, Date)
+TO 'C:/Program Files/PostgreSQL/9.5/data/2016/Sales_Vehicles_Calgary.csv' DELIMITER ';' CSV HEADER;

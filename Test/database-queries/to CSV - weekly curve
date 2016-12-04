@@ -7,3 +7,15 @@ GROUP BY dow, hour, minute
 ORDER BY dow, hour, minute)
 
 TO 'C:/Program Files/PostgreSQL/9.5/data/weekly.csv' DELIMITER ';' CSV HEADER;
+
+
+
+Copy(
+SELECT count(*), extract(isodow from timestampstart) AS dow,
+extract(hour from timestampstart) AS hour, extract(minute from
+timestampstart) AS minute
+FROM Calgary2016.routes
+GROUP BY dow, hour, minute
+ORDER BY dow, hour, minute)
+
+TO 'C:/Program Files/PostgreSQL/9.5/data/2016/weekly_Calgary.csv' DELIMITER ';' CSV HEADER;

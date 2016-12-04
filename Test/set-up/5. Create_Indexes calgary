@@ -1,0 +1,8 @@
+DROP INDEX if exists Calgary2016.idx_Calgary2016_routes_id;
+DROP INDEX if exists Calgary2016.idx_Calgary2016_routes_provider;
+DROP INDEX if exists Calgary2016.idx_Calgary2016_routes_timestampstart;
+DROP INDEX if exists Calgary2016.idx_Calgary2016_routes_timestampend;
+CREATE INDEX idx_Calgary2016_routes_id ON Calgary2016.routes(id);
+CREATE INDEX idx_Calgary2016_routes_provider ON Calgary2016.routes(provider);
+CREATE INDEX idx_Calgary2016_routes_timestampstart ON Calgary2016.routes(timestampstart);
+CREATE INDEX idx_Calgary2016_routes_timestampend ON Calgary2016.routes(timestampend);

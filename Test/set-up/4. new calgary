@@ -1,0 +1,5 @@
+CREATE SCHEMA if not exists Calgary2016;
+DROP TABLE if exists Calgary2016.routes ;
+SELECT * INTO Calgary2016.routes 
+
+FROM world2016.routes WHERE ST_DWithin(geom::geography, ST_GeomFromText('POINT(-114.060649 51.04641)', 4326)::geography, 100000);

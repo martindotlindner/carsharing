@@ -1,5 +1,6 @@
 -- B16.routes is the data from Berlin
 -- Calgary: Given that midnight is 8 hours later in Calgary than in Germany, copy and paste the first 8 hours to the end
+-- make sure that both tables have the same number of rows
 
 
 Copy(

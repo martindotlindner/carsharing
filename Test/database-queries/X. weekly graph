@@ -1,0 +1,23 @@
+-- B16.routes is the data from Berlin
+-- Calgary: Given that midnight is 8 hours later in Calgary than in Germany, copy and paste the first 8 hours to the end
+
+
+Copy(
+SELECT count(*), extract(isodow from timestampstart) AS dow,
+extract(hour from timestampstart) AS hour, extract(minute from timestampstart) AS minute
+FROM B16.routes
+GROUP BY dow, hour, minute
+ORDER BY dow, hour, minute)
+
+TO 'C:/Program Files/PostgreSQL/9.5/data/16/weekly_B.csv' DELIMITER ';' CSV HEADER;
+
+
+
+Copy(
+SELECT count(*), extract(isodow from timestampstart) AS dow,
+extract(hour from timestampstart) AS hour, extract(minute from timestampstart) AS minute
+FROM C16.routes
+GROUP BY dow, hour, minute
+ORDER BY dow, hour, minute)
+
+TO 'C:/Program Files/PostgreSQL/9.5/data/16/weekly_C.csv' DELIMITER ';' CSV HEADER;

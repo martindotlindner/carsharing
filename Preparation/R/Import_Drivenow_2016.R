@@ -11,14 +11,17 @@ for (i in 1:length(filenames)){
                      sep=",",
                      dec=".",
                      header = FALSE,
-                     na.strings=c("NA","null","null, null",", null"," ","","0,0","0.000000","0.000000, 0.000000"),
+                     na.strings=c("NA","null","null, null",", null"," ","","0,0","0.000000","0.000000, 0.000000", "False", "True"),
                      quote = "\"",
-                     fileEncoding= "utf8"
-  )
+                     fileEncoding= "utf8")
   
   # Convert date/time format
   ffcs$V1 <- strptime(ffcs$V1, format = "%Y-%m-%d_%H-%M")
   ffcs$V2 <- strptime(ffcs$V2, format = "%Y-%m-%d_%H-%M")
+  
+  #Convert fuelstatus to percent
+  ffcs$V10 <- ffcs$V10*100
+  ffcs$V11 <- ffcs$V11*100
   
   # Remove last column with distance
   ffcs$V21 <- NULL

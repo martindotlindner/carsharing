@@ -1,5 +1,5 @@
 ## Directory festlegen
-setwd("C:/Users/Martin/Documents/Workaholic/TUD_Verkehr/Rohdaten/floating/2016/car2go/")
+setwd("C:/Users/Martin/Documents/Workaholic/TUD_Verkehr/Freefloating/Rohdaten/floating/2016/car2go/")
 ## Liste mit csv-Dateien erstellen
 filenames <- list.files(pattern = "\\.csv$") 
 
@@ -8,7 +8,7 @@ file_new <- paste("utf/", filenames, sep="")
 
 
 #some csv-files containing strange symbol, which results to an error while reading table
-#am 12.11. in car2go 30, 26, NA, NA, Rosensteinstraße 35, 70191 Stuttgart
+#am 12.11. in car2go 30, 26, NA, NA, Rosensteinstra?e 35, 70191 Stuttgart
 
 for (i in 1:length(filenames)){
   ffcs <- read.table(filenames[i],
@@ -17,7 +17,7 @@ for (i in 1:length(filenames)){
                      header = FALSE,
                      na.strings=c("NA","null","null, null",", null"," ","","0,0","0.000000","0.000000, 0.000000"),
                      quote = "\"",
-                     fileEncoding= "utf8"  )
+                     fileEncoding = "utf8")
 
 # Convert date/time format
 ffcs$V1 <- strptime(ffcs$V1, format = "%Y-%m-%d_%H-%M")

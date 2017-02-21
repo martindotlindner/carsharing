@@ -1,0 +1,111 @@
+--mean
+select avg(distance_m_b) from be16.routes;
+select avg(distance_m_c) from ca16.routes;
+
+select avg(duration_min_b) from be16.routes;
+select avg(duration_min_c) from ca16.routes;
+
+select avg(mean_speed_b) from be16.routes;
+select avg(mean_speed_c) from ca16.routes;
+
+
+--standartdiviation
+select stddev_samp(distance_m_b) from be16.routes;
+select stddev_samp(distance_m_c) from ca16.routes;
+
+select stddev_samp(duration_min_b) from be16.routes;
+select stddev_samp(duration_min_c) from ca16.routes;
+
+select stddev_samp(mean_speed_b) from be16.routes;
+select stddev_samp(mean_speed_c) from ca16.routes;
+
+--mode
+SELECT mode() WITHIN GROUP (ORDER BY Duration_min_c) AS modal_value FROM Ca16.routes;
+SELECT mode() WITHIN GROUP (ORDER BY Duration_min_b) AS modal_value FROM be16.routes;
+
+
+--percentile 10
+select percentile_disc(0.1) within group (order by distance_m_b)
+  from be16.routes;
+select percentile_disc(0.1) within group (order by distance_m_c)
+  from ca16.routes;
+
+  select percentile_disc(0.1) within group (order by duration_min_b)
+  from be16.routes;
+select percentile_disc(0.1) within group (order by duration_min_c)
+  from ca16.routes;
+
+select percentile_disc(0.1) within group (order by mean_speed_b)
+  from be16.routes;
+select percentile_disc(0.1) within group (order by mean_speed_c)
+  from ca16.routes;
+
+
+  --percentile 25
+select percentile_disc(0.25) within group (order by distance_m_b)
+  from be16.routes;
+select percentile_disc(0.25) within group (order by distance_m_c)
+  from ca16.routes;
+
+  select percentile_disc(0.25) within group (order by duration_min_b)
+  from be16.routes;
+select percentile_disc(0.25) within group (order by duration_min_c)
+  from ca16.routes;
+
+select percentile_disc(0.25) within group (order by mean_speed_b)
+  from be16.routes;
+select percentile_disc(0.25) within group (order by mean_speed_c)
+  from ca16.routes;
+
+
+  --percentile 50 / median
+select percentile_disc(0.5) within group (order by distance_m_b)
+  from be16.routes;
+select percentile_disc(0.5) within group (order by distance_m_c)
+  from ca16.routes;
+
+  select percentile_disc(0.5) within group (order by duration_min_b)
+  from be16.routes;
+select percentile_disc(0.5) within group (order by duration_min_c)
+  from ca16.routes;
+
+select percentile_disc(0.5) within group (order by mean_speed_b)
+  from be16.routes;
+select percentile_disc(0.5) within group (order by mean_speed_c)
+  from ca16.routes;
+
+
+  --percentile 75
+select percentile_disc(0.75) within group (order by distance_m_b)
+  from be16.routes;
+select percentile_disc(0.75) within group (order by distance_m_c)
+  from ca16.routes;
+
+  select percentile_disc(0.75) within group (order by duration_min_b)
+  from be16.routes;
+select percentile_disc(0.75) within group (order by duration_min_c)
+  from ca16.routes
+
+select percentile_disc(0.75) within group (order by mean_speed_b)
+  from be16.routes
+select percentile_disc(0.75) within group (order by mean_speed_c)
+  from ca16.routes
+
+
+  --percentile 90
+select percentile_disc(0.9) within group (order by distance_m_b)
+  from be16.routes
+
+Appendix 2.5 (continued)
+select percentile_disc(0.9) within group (order by distance_m_c)
+  from ca16.routes
+
+  select percentile_disc(0.9) within group (order by duration_min_b)
+  from be16.routes
+select percentile_disc(0.9) within group (order by duration_min_c)
+  from ca16.routes
+
+select percentile_disc(0.9) within group (order by mean_speed_b)
+  from be16.routes
+select percentile_disc(0.9) within group (order by mean_speed_c)
+  from ca16.routes

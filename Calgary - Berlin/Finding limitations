@@ -1,0 +1,193 @@
+-----------------------------------------------------------
+--cars to 124 east lake blvd ne, airdrie, ab t4a 2g2
+-----------------------------------------------------------
+--number of trips
+select count(*) from ca16.routes where streetstart = '124 east lake blvd ne, airdrie, ab t4a 2g2';
+
+--first and last timepoint of these trips
+select * from ca16.routes where streetstart = '124 east lake blvd ne, airdrie, ab t4a 2g2' order by timestampstart;
+select * from ca16.routes where streetstart = '124 east lake blvd ne, airdrie, ab t4a 2g2' order by licenceplate;
+
+--first trip of each car
+select * from ca16.routes where licenceplate = 'l41136' order by timestampstart;
+select * from ca16.routes where licenceplate = 'l41137' order by timestampstart;
+select * from ca16.routes where licenceplate = 'l41139' order by timestampstart;
+select * from ca16.routes where licenceplate = 'l41120' order by timestampstart;
+select * from ca16.routes where licenceplate = 'l41129' order by timestampstart;
+select * from ca16.routes where licenceplate = 'l41130' order by timestampstart;
+select * from ca16.routes where licenceplate = 'l41123' order by timestampstart;
+select * from ca16.routes where licenceplate = 'l41113' order by timestampstart;
+select * from ca16.routes where licenceplate = 'l80352' order by timestampstart;
+select * from ca16.routes where licenceplate = 'l41147' order by timestampstart;
+…
+--round trip from and to airdrie
+select count(distinct vehicleid) from ca16.routes where streetstart = '124 east lake blvd ne, airdrie, ab t4a 2g2';
+select * from ca16.routes where streetstart = '124 east lake blvd ne, airdrie, ab t4a 2g2' and streetend = '124 east lake blvd ne, airdrie, ab t4a 2g2';
+
+-----------------------------------------------------------
+--arrivals and departures in each hexagon
+-----------------------------------------------------------
+--add hexagon
+alter table be16.routes drop column if exits start_hex;
+alter table be16.routes drop column if exits end_hex;
+alter table ca16.routes drop column if exits start_hex;
+alter table ca16.routes drop column if exits end_hex;
+
+alter table be16.routes add column start_hex integer;
+alter table be16.routes add column end_hex integer;
+update be16.routes set start_hex = gid from be16.hexagon_25833_b where st_within(be16.routes.geom_start25833, be16.hexagon_25833_b.geom);
+update be16.routes set end_hex = gid from be16.hexagon_25833_b where st_within(be16.routes.geom_end25833, be16.hexagon_25833_b.geom);
+
+alter table ca16.routes add column start_hex integer;
+alter table ca16.routes add column end_hex integer;
+update ca16.routes set start_hex = gid from ca16.hexagon_3402_c where st_within(ca16.routes.geom_start3402, ca16.hexagon_3402_c.geom);
+update ca16.routes set end_hex = gid from ca16.hexagon_3402_c where st_within(ca16.routes.geom_end3402, ca16.hexagon_3402_c.geom);
+
+vacuum analyze be16.routes;
+vacuum analyze ca16.routes;
+
+--export
+copy(
+select start_hex from be16.routes where timestampstart::time >= '00:00:00' and timestampstart::time < '03:00:00')
+to 'c:/program files/postgresql/9.5/data/geo/hexagon_matrix_b_0-3_start.csv' delimiter ';' csv header;
+
+copy(
+select start_hex from be16.routes where timestampstart::time >= '03:00:00' and timestampstart::time < '06:00:00')
+to 'c:/program files/postgresql/9.5/data/geo/hexagon_matrix_b_3-6_start.csv' delimiter ';' csv header;
+
+copy(
+select start_hex from be16.routes where timestampstart::time >= '06:00:00' and timestampstart::time < '09:00:00')
+to 'c:/program files/postgresql/9.5/data/geo/hexagon_matrix_b_6-9_start.csv' delimiter ';' csv header;
+
+copy(
+select start_hex from be16.routes where timestampstart::time >= '09:00:00' and timestampstart::time < '12:00:00')
+to 'c:/program files/postgresql/9.5/data/geo/hexagon_matrix_b_9-12_start.csv' delimiter ';' csv header;
+
+copy(
+select start_hex from be16.routes where timestampstart::time >= '12:00:00' and timestampstart::time < '15:00:00')
+to 'c:/program files/postgresql/9.5/data/geo/hexagon_matrix_b_12-15_start.csv' delimiter ';' csv header;
+
+copy(
+select start_hex from be16.routes where timestampstart::time >= '15:00:00' and timestampstart::time < '18:00:00')
+to 'c:/program files/postgresql/9.5/data/geo/hexagon_matrix_b_15-18_start.csv' delimiter ';' csv header;
+
+copy(
+select start_hex from be16.routes where timestampstart::time >= '18:00:00' and timestampstart::time < '21:00:00')
+
+Appendix 2.4 (continued)
+to 'c:/program files/postgresql/9.5/data/geo/hexagon_matrix_b_18-21_start.csv' delimiter ';' csv header;
+
+copy(
+select start_hex from be16.routes where timestampstart::time >= '21:00:00' and timestampstart::time <= '23:59:59')
+to 'c:/program files/postgresql/9.5/data/geo/hexagon_matrix_b_21-24_start.csv' delimiter ';' csv header;
+
+copy(
+select end_hex from be16.routes where timestampend::time >= '00:00:00' and timestampend::time < '03:00:00')
+to 'c:/program files/postgresql/9.5/data/geo/hexagon_matrix_b_0-3_end.csv' delimiter ';' csv header;
+
+copy(
+select end_hex from be16.routes where timestampend::time >= '03:00:00' and timestampend::time < '06:00:00')
+to 'c:/program files/postgresql/9.5/data/geo/hexagon_matrix_b_3-6_end.csv' delimiter ';' csv header;
+
+copy(
+select end_hex from be16.routes where timestampend::time >= '06:00:00' and timestampend::time < '09:00:00')
+to 'c:/program files/postgresql/9.5/data/geo/hexagon_matrix_b_6-9_end.csv' delimiter ';' csv header;
+
+copy(
+select end_hex from be16.routes where timestampend::time >= '09:00:00' and timestampend::time < '12:00:00')
+to 'c:/program files/postgresql/9.5/data/geo/hexagon_matrix_b_9-12_end.csv' delimiter ';' csv header;
+
+copy(
+select end_hex from be16.routes where timestampend::time >= '12:00:00' and timestampend::time < '15:00:00')
+to 'c:/program files/postgresql/9.5/data/geo/hexagon_matrix_b_12-15_end.csv' delimiter ';' csv header;
+
+copy(
+select end_hex from be16.routes where timestampend::time >= '15:00:00' and timestampend::time < '18:00:00')
+to 'c:/program files/postgresql/9.5/data/geo/hexagon_matrix_b_15-18_end.csv' delimiter ';' csv header;
+
+copy(
+select end_hex from be16.routes where timestampend::time >= '18:00:00' and timestampend::time < '21:00:00')
+to 'c:/program files/postgresql/9.5/data/geo/hexagon_matrix_b_18-21_end.csv' delimiter ';' csv header;
+
+copy(
+select end_hex from be16.routes where timestampend::time >= '21:00:00' and timestampend::time <= '23:59:59')
+to 'c:/program files/postgresql/9.5/data/geo/hexagon_matrix_b_21-24_end_neu.csv' delimiter ';' csv header;
+
+copy(
+select start_hex from ca16.routes where timestampstart::time >= '08:00:00' and timestampstart::time < '11:00:00')
+to 'c:/program files/postgresql/9.5/data/geo/hexagon_matrix_c_0-3_start.csv' delimiter ';' csv header;
+
+copy(
+select start_hex from ca16.routes where timestampstart::time >= '11:00:00' and timestampstart::time < '14:00:00')
+to 'c:/program files/postgresql/9.5/data/geo/hexagon_matrix_c_3-6_start.csv' delimiter ';' csv header;
+
+copy(
+select start_hex from ca16.routes where timestampstart::time >= '14:00:00' and timestampstart::time < '17:00:00')
+to 'c:/program files/postgresql/9.5/data/geo/hexagon_matrix_c_6-9_start.csv' delimiter ';' csv header;
+
+copy(
+select start_hex from ca16.routes where timestampstart::time >= '17:00:00' and timestampstart::time < '20:00:00')
+to 'c:/program files/postgresql/9.5/data/geo/hexagon_matrix_c_9-12_start.csv' delimiter ';' csv header;
+
+copy(
+select start_hex from ca16.routes where timestampstart::time >= '20:00:00' and timestampstart::time < '23:00:00')
+to 'c:/program files/postgresql/9.5/data/geo/hexagon_matrix_c_12-15_start.csv' delimiter ';' csv header;
+
+copy(
+select start_hex from ca16.routes where timestampstart::time >= '23:00:00' and timestampstart::time <= '23:59:59')
+to 'c:/program files/postgresql/9.5/data/geo/hexagon_matrix_c_15-18_start_part1.csv' delimiter ';' csv header;
+copy(
+select start_hex from ca16.routes where timestampstart::time >= '00:00:00' and timestampstart::time < '02:00:0')
+to 'c:/program files/postgresql/9.5/data/geo/hexagon_matrix_c_15-18_start_part2.csv' delimiter ';' csv header;
+
+Appendix 2.4 (continued)
+
+copy(
+select start_hex from ca16.routes where timestampstart::time >= '02:00:00' and timestampstart::time < '05:00:00')
+to 'c:/program files/postgresql/9.5/data/geo/hexagon_matrix_c_18-21_start.csv' delimiter ';' csv header;
+
+copy(
+select start_hex from ca16.routes where timestampstart::time >= '05:00:00' and timestampstart::time < '08:00:00')
+to 'c:/program files/postgresql/9.5/data/geo/hexagon_matrix_c_21-24_start.csv' delimiter ';' csv header;
+
+
+
+copy(
+select end_hex from ca16.routes where timestampend::time >= '08:00:00' and timestampend::time < '11:00:00')
+to 'c:/program files/postgresql/9.5/data/geo/hexagon_matrix_c_0-3_end.csv' delimiter ';' csv header;
+
+copy(
+select end_hex from ca16.routes where timestampend::time >= '11:00:00' and timestampend::time < '14:00:00')
+to 'c:/program files/postgresql/9.5/data/geo/hexagon_matrix_c_3-6_end.csv' delimiter ';' csv header;
+
+copy(
+select end_hex from ca16.routes where timestampend::time >= '14:00:00' and timestampend::time < '17:00:00')
+to 'c:/program files/postgresql/9.5/data/geo/hexagon_matrix_c_6-9_end.csv' delimiter ';' csv header;
+
+copy(
+select end_hex from ca16.routes where timestampend::time >= '17:00:00' and timestampend::time < '20:00:00')
+to 'c:/program files/postgresql/9.5/data/geo/hexagon_matrix_c_9-12_end.csv' delimiter ';' csv header;
+
+copy(
+select end_hex from ca16.routes where timestampend::time >= '20:00:00' and timestampend::time < '23:00:00')
+to 'c:/program files/postgresql/9.5/data/geo/hexagon_matrix_c_12-15_end.csv' delimiter ';' csv header;
+
+copy(
+select end_hex from ca16.routes where timestampend::time >= '23:00:00' and timestampend::time <= '23:59:59')
+to 'c:/program files/postgresql/9.5/data/geo/hexagon_matrix_c_15-18_end_part1.csv' delimiter ';' csv header;
+copy(
+select end_hex from ca16.routes where timestampend::time >= '00:00:00' and timestampend::time <= '02:00:00')
+to 'c:/program files/postgresql/9.5/data/geo/hexagon_matrix_c_15-18_end_part2.csv' delimiter ';' csv header;
+copy(
+select end_hex from ca16.routes where timestampend::time >= '02:00:00' and timestampend::time < '05:00:00')
+to 'c:/program files/postgresql/9.5/data/geo/hexagon_matrix_c_18-21_end.csv' delimiter ';' csv header;
+
+copy(
+select end_hex from ca16.routes where timestampend::time >= '05:00:00' and timestampend::time < '08:00:00')
+to 'c:/program files/postgresql/9.5/data/geo/hexagon_matrix_c_21-24_end.csv' delimiter ';' csv header;
+
+-----------------------------------------------------------
+--number of cars
+-----------------------------------------------------------
+select count(distinct vehicleid) from be16.routes;
+select count(distinct vehicleid) from ca16.routes;

@@ -1,0 +1,32 @@
+-----------------------------------------------------------
+--Delete wrong things
+-----------------------------------------------------------
+-- longer than maximal rental period
+delete from ca16.routes where duration_min_c > 4320;
+delete from be16.routes where duration_min_b > 1440 and provider = 'car2go';
+delete from be16.routes where duration_min_b > 2880;
+--high average speed
+delete from ca16.routes where mean_speed_c > 180;
+delete from be16.routes where mean_speed_b > 180;
+--traveled distance=0 km
+delete from ca16.routes where distance_m_c = 0;
+delete from be16.routes where distance_m_b = 0;
+--time just 0 minutes
+delete from ca16.routes where duration_min_c = 0;
+delete from be16.routes where duration_min_b = 0;
+
+vacuum analyze be16.routes;
+
+vacuum analyze ca16.routes;
+
+-----------------------------------------------------------
+--percentage of deleted rentals
+-----------------------------------------------------------
+--number of rentals in original dataset
+select count(*) from wo16.routes where city = 'berlin';
+select count(*) from wo16.routes where city = 'calgary';
+
+--number of rentals after data cleaning
+select count(*) from be16.routes;
+select count(*) from ca16.routes;
+

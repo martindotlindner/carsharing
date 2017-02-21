@@ -1,0 +1,38 @@
+select count(*) from Ca16.routes where  duration_min_c <= '3' and  timestampstart::time >= '09:00:00' and timestampstart::time < '12:00:00'; 
+select count(*) from Ca16.routes where  duration_min_c <= '3' and  timestampstart::time >= '12:00:00' and timestampstart::time < '15:00:00'; 
+select count(*) from Ca16.routes where  duration_min_c <= '3' and  timestampstart::time >= '15:00:00' and timestampstart::time < '18:00:00'; 
+select count(*) from Ca16.routes where  duration_min_c <= '3' and  timestampstart::time >= '18:00:00' and timestampstart::time < '21:00:00'; 
+select count(*) from Ca16.routes where  duration_min_c <= '3' and  timestampstart::time >= '21:00:00' and timestampstart::time <= '23:59:59';
+select count(*) from Ca16.routes where  duration_min_c <= '3' and  timestampstart::time >= '00:00:00' and timestampstart::time < '03:00:00'; 
+select count(*) from Ca16.routes where  duration_min_c <= '3' and  timestampstart::time >= '03:00:00' and timestampstart::time < '06:00:00'; 
+select count(*) from Ca16.routes where  duration_min_c <= '3' and  timestampstart::time >= '06:00:00' and timestampstart::time < '09:00:00'; 
+select count(*) from Ca16.routes where duration_min_c <= '3'; 
+
+
+select count(*) from Ca16.routes where    timestampstart::time >= '09:00:00' and timestampstart::time < '12:00:00';
+select count(*) from Ca16.routes where   timestampstart::time >= '12:00:00' and timestampstart::time < '15:00:00';
+select count(*) from Ca16.routes where  timestampstart::time >= '15:00:00' and timestampstart::time < '18:00:00'; 
+select count(*) from Ca16.routes where  timestampstart::time >= '18:00:00' and timestampstart::time < '21:00:00'; 
+select count(*) from Ca16.routes where  timestampstart::time >= '21:00:00' and timestampstart::time <= '23:59:59'; 
+select count(*) from Ca16.routes where timestampstart::time >= '00:00:00' and timestampstart::time < '03:00:00'; 
+
+
+select count(*) from Ca16.routes where   timestampstart::time >= '03:00:00' and timestampstart::time < '06:00:00'; 
+select count(*) from Ca16.routes where   timestampstart::time >= '06:00:00' and timestampstart::time < '09:00:00'; 
+select count(*) from Ca16.routes ; 
+
+select count(*)
+  from ca16.routes where   timestampstart::time >= '09:00:00' and timestampstart::time < '10:00:00' and duration_min_c = '3'; 517
+select count(*)
+  from ca16.routes where   timestampstart::time >= '10:00:00' and timestampstart::time < '11:00:00' and duration_min_c = '3'; 3190
+select count(*)
+  from ca16.routes where   timestampstart::time >= '11:00:00' and timestampstart::time < '12:00:00' and duration_min_c = '3'; 317
+
+select count(*)
+  from ca16.routes where   timestampstart::time >= '09:00:00' and timestampstart::time < '10:00:00'; 
+select count(*)
+  from ca16.routes where   timestampstart::time >= '10:00:00' and timestampstart::time < '11:00:00'; 
+
+select count(*)
+  from ca16.routes where   timestampstart::time >= '11:00:00' and timestampstart::time < '12:00:00'; 
+

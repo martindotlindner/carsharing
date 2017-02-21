@@ -1,0 +1,43 @@
+select count(*) from ca16.routes;
+
+--from and to hexagon 504
+select count(*) from ca16.routes where end_hex = '504';
+select count(*) from ca16.routes where not end_hex = '504' and not start_hex = '504';
+select count(*) from ca16.routes where start_hex = '504' and end_hex = '504';
+select count(*) from ca16.routes where start_hex = '504' and not end_hex = '504';
+select count(*) from ca16.routes where end_hex = '504' and not start_hex = '504';
+select count(*) from ca16.routes;
+
+--from and to downtown
+select count(*) from ca16.routes 
+where not start_hex = '478' 
+and not start_hex = '479' 
+and not start_hex = '503'
+and not start_hex = '504'
+and not start_hex = '505'
+and not start_hex = '530'
+and not start_hex = '531'
+and not end_hex = '478'
+and not end_hex = '479'
+and not end_hex = '503'
+and not end_hex = '504'
+and not end_hex = '505'
+and not end_hex = '530'
+and not end_hex = '531';
+
+select count(*) from ca16.routes 
+where start_hex = '478' 
+or start_hex = '479' 
+or start_hex = '503'
+or start_hex = '504'
+or start_hex = '505'
+or start_hex = '530'
+or start_hex = '531'
+or end_hex = '478'
+or end_hex = '479'
+or end_hex = '503'
+or end_hex = '504'
+or end_hex = '505'
+or end_hex = '530'
+or end_hex = '531';
+

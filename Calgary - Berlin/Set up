@@ -1,0 +1,369 @@
+Appendix 2.1:	Data set up
+-----------------------------------------------------------
+--create schema
+-----------------------------------------------------------
+create schema if not exists wo16; -- create an empty schema
+set datestyle to german;  -- depending on installation properties, date format has to be changed to german style
+drop table if exists wo16.routes;  
+create table wo16.routes(   -- create an empty table within schema 'world' with primary key 'id' for global carsharing data
+	id serial primary key,
+	timestampstart timestamp default null,
+	timestampend timestamp default null,
+	provider character varying,
+	vehicleid character varying,
+	licenceplate character varying,
+	model character varying,
+	innercleanliness character varying,
+	outercleanliness character varying,
+	fueltype character varying,
+	fuelstatestart character varying,
+	fuelstateend character varying,
+	chargingonstart character varying,
+	chargingonend character varying,
+	streetstart character varying,
+	streetend character varying,
+	latitudestart double precision,
+	longitudestart double precision,
+	latitudeend double precision,
+longitudeend double precision);
+
+
+
+-----------------------------------------------------------
+--import files
+-----------------------------------------------------------
+copy wo16.routes (timestampstart, timestampend, provider, vehicleid, licenceplate, model, innercleanliness, outercleanliness, fueltype, fuelstatestart, fuelstateend, chargingonstart, chargingonend, streetstart, streetend, 
+latitudestart, longitudestart, latitudeend, longitudeend)
+from 'c:/users/uwe/documents/a - calgary/data/2016_2/drivenow/2016-08.csv' null as 'na' delimiter ';' ;
+
+copy wo16.routes (timestampstart, timestampend, provider, vehicleid, licenceplate, model, innercleanliness, outercleanliness, fueltype, fuelstatestart, fuelstateend, chargingonstart, chargingonend, streetstart, streetend, 
+latitudestart, longitudestart, latitudeend, longitudeend)
+from 'c:/users/uwe/documents/a - calgary/data/2016_2/drivenow/2016-09.csv' null as 'na' delimiter ';' ;
+
+copy wo16.routes (timestampstart, timestampend, provider, vehicleid, licenceplate, model, innercleanliness, outercleanliness, fueltype, fuelstatestart, fuelstateend, chargingonstart, chargingonend, streetstart, streetend, 
+latitudestart, longitudestart, latitudeend, longitudeend)
+from 'c:/users/uwe/documents/a - calgary/data/2016_2/car2go/2016-08.csv' null as 'na' delimiter ';' ;
+
+copy wo16.routes (timestampstart, timestampend, provider, vehicleid, licenceplate, model, innercleanliness, outercleanliness, fueltype, fuelstatestart, fuelstateend, chargingonstart, chargingonend, streetstart, streetend, 
+latitudestart, longitudestart, latitudeend, longitudeend)
+from 'c:/users/uwe/documents/a - calgary/data/2016_2/car2go/2016-09.csv' null as 'na' delimiter ';' ;
+
+copy wo16.routes (timestampstart, timestampend, provider, vehicleid, licenceplate, model, innercleanliness, outercleanliness, fueltype, fuelstatestart, fuelstateend, chargingonstart, chargingonend, streetstart, streetend, 
+latitudestart, longitudestart, latitudeend, longitudeend)
+from 'c:/users/uwe/documents/a - calgary/data/2016_2/car2go/2016-10.csv' null as 'na' delimiter ';' ;
+
+copy wo16.routes (timestampstart, timestampend, provider, vehicleid, licenceplate, model, innercleanliness, outercleanliness, fueltype, fuelstatestart, fuelstateend, chargingonstart, chargingonend, streetstart, streetend, 
+latitudestart, longitudestart, latitudeend, longitudeend)
+from 'c:/users/uwe/documents/a - calgary/data/2016_2/car2go/2016-11.csv' null as 'na' delimiter ';' ;
+
+
+
+-----------------------------------------------------------
+--ad world geo
+-----------------------------------------------------------
+-- add line
+alter table wo16.routes drop column if exists geom;
+select  addgeometrycolumn(
+	'wo16',
+	'routes',
+	'geom',
+	4326,
+	'linestring'
+	,2);
+update wo16.routes set geom = st_setsrid(st_makeline(st_point(longitudestart, latitudestart), st_point(longitudeend, latitudeend)), 4326);
+drop index if exists idx_wo16_routes_geom;
+create index idx_wo16_routes_geom on wo16.routes using gist(geom);
+
+
+
+
+
+Appendix 2.1 (continued)
+--add point geometry for start
+alter table wo16.routes drop column if exists geom_start;
+select  addgeometrycolumn(
+	'wo16',
+	'routes',
+	'geom_start',
+	4326,
+	'point'
+	,2);
+
+update wo16.routes set geom_start = st_setsrid(st_point(longitudestart, latitudestart), 4326);
+drop index if exists idx_wo16_routes_geom_start;
+create index idx_wo16_routes_geom_start on wo16.routes using gist(geom_start);
+
+--sdd point geometry for end
+alter table wo16.routes drop column if exists geom_end;
+select  addgeometrycolumn(
+	'wo16',
+	'routes',
+	'geom_end',
+	4326,
+	'point'
+	,2);
+
+update wo16.routes set geom_end = st_setsrid(st_point(longitudestart, latitudestart), 4326);
+drop index if exists idx_wo16_routes_geom_end;
+create index idx_wo16_routes_geom_end on wo16.routes using gist(geom_end);
+
+
+
+vacuum analyze wo16.routes;
+
+
+-----------------------------------------------------------
+--add city
+-----------------------------------------------------------
+alter table wo16.routes drop column if exists city;
+alter table wo16.routes add column city character varying;
+
+update wo16.routes set city = 'berlin'
+where st_dwithin(wo16.routes.geom_start, st_geomfromtext('point(13.408333 52.518611)', 4326), 0.5);
+
+update wo16.routes set city = 'muenchen'
+where st_dwithin(wo16.routes.geom_start, st_geomfromtext('point(11.575556 48.137222)', 4326), 0.5);
+
+update wo16.routes set city = 'hamburg'
+where st_dwithin(wo16.routes.geom_start, st_geomfromtext('point(9.993333 53.550556)', 4326), 0.5);
+
+update wo16.routes set city = 'frankfurt'
+where st_dwithin(wo16.routes.geom_start, st_geomfromtext('point(8.682222 50.110556)', 4326), 0.5);
+
+update wo16.routes set city = 'stuttgart'
+where st_dwithin(wo16.routes.geom_start, st_geomfromtext('point(9.182778 48.775556)', 4326), 0.5);
+
+update wo16.routes set city = 'koeln'
+where st_dwithin(wo16.routes.geom_start, st_geomfromtext('point(6.956944 50.938056)', 4326), 0.3);
+
+update wo16.routes set city = 'duesseldorf'
+where st_dwithin(wo16.routes.geom_start, st_geomfromtext('point(6.782778 51.225556)', 4326), 0.3);
+
+update wo16.routes set city = 'vancouver'
+where st_dwithin(wo16.routes.geom_start, st_geomfromtext('point(-123.12244 49.28098)', 4326), 0.5);
+
+update wo16.routes set city = 'calgary'
+where st_dwithin(wo16.routes.geom_start, st_geomfromtext('point(-114.06049 51.04641)', 4326), 0.5);
+
+update wo16.routes set city = 'seattle'
+where st_dwithin(wo16.routes.geom_start, st_geomfromtext('point(-122.331944 47.606111)', 4326), 0.5);
+
+drop index if exists wo16.idx_wo16_routes_city;
+create index idx_wo16_routes_city on wo16.routes(city);
+
+vacuum analyze wo16.routes;
+
+-----------------------------------------------------------
+-- import in separate schema
+-----------------------------------------------------------
+--Calgary
+create schema if not exists ca16;
+drop table if exists ca16.routes ;
+select * into ca16.routes 
+from wo16.routes where city = 'calgary';
+
+--berlin
+create schema if not exists be16;
+drop table if exists be16.routes ;
+select * into be16.routes 
+from wo16.routes where city = 'berlin';
+
+
+vacuum analyze be16.routes;
+
+vacuum analyze ca16.routes;
+
+
+
+
+
+
+
+
+Appendix 2.1 (continued)
+-----------------------------------------------------------
+--create index
+-----------------------------------------------------------
+drop index if exists be16.idx_be16_routes_id;
+drop index if exists be16.idx_be16_routes_provider;
+drop index if exists be16.idx_be16_routes_timestampstart;
+drop index if exists be16.idx_be16_routes_timestampend;
+create index idx_be16_routes_id on be16.routes(id);
+create index idx_be16_routes_provider on be16.routes(provider);
+create index idx_be16_routes_timestampstart on be16.routes(timestampstart);
+create index idx_be16_routes_timestampend on be16.routes(timestampend);
+
+drop index if exists ca16.idx_ca16_routes_id;
+drop index if exists ca16.idx_ca16_routes_provider;
+drop index if exists ca16.idx_ca16_routes_timestampstart;
+drop index if exists ca16.idx_ca16_routes_timestampend;
+create index idx_ca16_routes_id on ca16.routes(id);
+create index idx_ca16_routes_provider on ca16.routes(provider);
+create index idx_ca16_routes_timestampstart on ca16.routes(timestampstart);
+create index idx_ca16_routes_timestampend on ca16.routes(timestampend);
+
+vacuum analyze be16.routes;
+
+vacuum analyze ca16.routes;
+
+
+
+-----------------------------------------------------------
+--delete wrong things 
+-----------------------------------------------------------
+-- drop 'umrüsterfahrten'
+select count(*) from be16.routes
+where streetstart = 'umrüster de' or streetend = 'umrüster de' ;
+-- drop wrong rentals
+delete from be16.routes
+where latitudestart < 1 or longitudestart < 1 or latitudeend < 1 or longitudeend < 1 or
+latitudestart > 90 or longitudestart > 90 or latitudeend > 90 or longitudeend > 90;
+delete from ca16.routes where longitudeend = '0';
+delete from ca16.routes where latitudeend = '0';
+
+vacuum analyze be16.routes;
+
+vacuum analyze ca16.routes;
+-----------------------------------------------------------
+-- add local geom
+-----------------------------------------------------------
+-- berlin
+alter table be16.routes drop column if exists geom25833;
+select  addgeometrycolumn(
+	'be16',
+	'routes',
+	'geom25833',
+	25833,
+	'linestring'
+	,2);
+	
+update be16.routes set geom25833 = st_transform(st_setsrid(st_makeline(st_point(longitudestart, latitudestart), st_point(longitudeend, latitudeend)), 4326), 25833);
+drop index if exists idx_be16_routes_geom25833;
+create index idx_be16_routes_geom25833 on be16.routes using gist(geom25833);
+
+alter table be16.routes drop column if exists geom_start25833;
+select  addgeometrycolumn(
+	'be16',
+	'routes',
+	'geom_start25833',
+	25833,
+	'point'
+	,2);
+
+update be16.routes set geom_start25833 = st_transform(st_setsrid(st_point(longitudestart, latitudestart), 4326), 25833);
+drop index if exists idx_be16_routes_geom_start25833;
+create index idx_be16_routes_geom_start25833 on be16.routes using gist(geom_start25833);
+
+alter table be16.routes drop column if exists geom_end25833;
+select  addgeometrycolumn(
+	'be16',
+	'routes',
+	'geom_end25833',
+	25833,
+	'point'
+	,2);
+
+update be16.routes set geom_end25833 = st_transform(st_setsrid(st_point(longitudeend, latitudeend), 4326), 25833);
+drop index if exists idx_be16_routes_geom_end25833;
+create index idx_be16_routes_geom_end25833 on be16.routes using gist(geom_end25833)
+
+-- calgary
+alter table ca16.routes drop column if exists geom3402;
+select  addgeometrycolumn(
+	'ca16',
+	'routes',
+	'geom3402',
+	3402,
+	'linestring'
+	,2);
+		
+update ca16.routes set geom3402 = st_transform(st_setsrid(st_makeline(st_point(longitudestart, latitudestart), st_point(longitudeend, latitudeend)), 4326), 3402);
+drop index if exists idx_ca16_routes_geom3402;
+create index idx_ca16_routes_geom3402 on ca16.routes using gist(geom3402);
+
+Appendix 2.1 (continued)
+alter table ca16.routes drop column if exists geom_start3402;
+select  addgeometrycolumn(
+	'ca16',
+	'routes',
+	'geom_start3402',
+	3402,
+	'point'
+	,2);
+
+update ca16.routes set geom_start3402 = st_transform(st_setsrid(st_point(longitudestart, latitudestart), 4326), 3402);
+drop index if exists idx_ca16_routes_geom_start3402;
+create index idx_ca16_routes_geom_start3402 on ca16.routes using gist(geom_start3402);
+
+
+alter table ca16.routes drop column if exists geom_end3402;
+select  addgeometrycolumn(
+	'ca16',
+	'routes',
+	'geom_end3402',
+	3402,
+	'point'
+	,2);
+
+update ca16.routes set geom_end3402 = st_transform(st_setsrid(st_point(longitudeend, latitudeend), 4326), 3402);
+drop index if exists idx_ca16_routes_geom_end3402;
+create index idx_ca16_routes_geom_end3402 on ca16.routes using gist(geom_end3402)
+
+vacuum analyze be16.routes;
+
+vacuum analyze ca16.routes;
+
+select count(*) from be16.routes;
+select count(*) from ca16.routes;
+
+-----------------------------------------------------------
+--calculate index
+-----------------------------------------------------------
+--duration in minutes:
+alter table be16.routes add column duration_min_b double precision;
+update be16.routes set duration_min_b = extract(epoch from (timestampend - timestampstart))/60 ;
+drop index if exists idx_be16_routes_duration_min_b;
+create index idx_be16_routes_duration_min_b on be16.routes(duration_min_b);
+
+alter table ca16.routes add column duration_min_c double precision;
+update ca16.routes set duration_min_c = extract(epoch from (timestampend - timestampstart))/60 ;
+drop index if exists idx_ca16_routes_duration_min_c;
+create index idx_ca16_routes_duration_min_c on ca16.routes(duration_min_c);
+
+vacuum analyze be16.routes;
+
+vacuum analyze ca16.routes;
+
+--distance in meters (rounded to two decimal places, column 'geom' have to be linestring
+alter table be16.routes add column distance_m_b double precision;
+update be16.routes set distance_m_b = round(st_length(st_transform(geom,25833))::numeric,2);
+
+alter table ca16.routes add column distance_m_c double precision;
+update ca16.routes set distance_m_c = round(st_length(geom3402)::numeric,2);
+
+vacuum analyze be16.routes;
+
+vacuum analyze ca16.routes;
+
+--mean speed in km/h
+alter table be16.routes add column mean_speed_b double precision;
+update be16.routes set mean_speed_b = case
+   when duration_min_b > 0 then(distance_m_b/1000)/(duration_min_b/60)
+   else 99999
+end;
+
+drop index if exists idx_be16_routes_speed;
+create index idx_be16_routes_speed on be16.routes(mean_speed_b);
+
+alter table ca16.routes add column mean_speed_c double precision;
+update ca16.routes set mean_speed_c = case
+   when duration_min_c > 0 then(distance_m_c/1000)/(duration_min_c/60)
+   else 99999
+end;
+
+drop index if exists idx_ca16_routes_speed;
+create index idx_ca16_routes_speed on ca16.routes(mean_speed_c);
+
+vacuum analyze be16.routes;
+
+vacuum analyze ca16.routes;

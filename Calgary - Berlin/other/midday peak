@@ -1,0 +1,11 @@
+select count(*) from Ca16.routes where distance_m_c <= '200' and  timestampstart::time >= '15:00:00' and timestampstart::time < '18:00:00';
+
+select count(*) from Ca16.routes where distance_m_c <= '200' and  timestampstart::time >= '18:00:00' and timestampstart::time < '21:00:00';
+
+select count(*) from Ca16.routes where  distance_m_c <= '200' and  timestampstart::time >= '21:00:00' and timestampstart::time < '23:59:59';
+
+select count(*) from Ca16.routes where timestampstart::time >= '15:00:00' and timestampstart::time < '18:00:00'; 
+
+select count(*) from Ca16.routes where  timestampstart::time >= '18:00:00' and timestampstart::time < '21:00:00';
+
+select count(*) from Ca16.routes where timestampstart::time >= '21:00:00' and timestampstart::time < '23:59:59'; 

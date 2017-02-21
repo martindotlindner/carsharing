@@ -1,0 +1,7 @@
+copy(
+select start_hex,end_hex, count(*) from be16.routes group by start_hex, end_hex order by start_hex, end_hex)
+to 'c:/program files/postgresql/9.5/data/hexagon_matrix_lines_b.csv' delimiter ';' csv header;
+
+copy(
+select start_hex,end_hex, count(*) from ca16.routes group by start_hex, end_hex order by start_hex, end_hex)
+to 'c:/program files/postgresql/9.5/data/hexagon_matrix_lines_c.csv' delimiter ';' csv header;

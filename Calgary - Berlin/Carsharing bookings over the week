@@ -1,0 +1,16 @@
+--weekly
+copy(
+select count(*), extract(isodow from timestampstart) as dow,
+extract(hour from timestampstart) as hour, extract(minute from timestampstart) as minute
+from be16.routes
+group by dow, hour, minute
+order by dow, hour, minute)
+to 'c:/program files/postgresql/9.5/data/16/weekly_b.csv' delimiter ';' csv header;
+
+copy(
+select count(*), extract(isodow from timestampstart) as dow,
+extract(hour from timestampstart) as hour, extract(minute from timestampstart) as minute
+from ca16.routes
+group by dow, hour, minute
+order by dow, hour, minute)
+to 'c:/program files/postgresql/9.5/data/16/weekly_c.csv' delimiter ';' csv header;

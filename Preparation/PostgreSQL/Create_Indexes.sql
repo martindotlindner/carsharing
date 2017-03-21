@@ -1,5 +1,6 @@
 -- Set used memory for maintenance to 2GB
 SET maintenance_work_mem = 2097151;
+CREATE SCHEMA if not exists germany;
  
 --for germany
 --DROP INDEX if exists germany.idx_germany_routes_id;
